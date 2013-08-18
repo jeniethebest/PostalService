@@ -1,9 +1,7 @@
-.idea
+.idea/
 *.class
 target
 *.log
-*\log
+*/log
 *.iml
-
-
-.idea/vcs.xml
+.DS_Store
