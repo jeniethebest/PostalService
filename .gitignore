@@ -1,0 +1,9 @@
+.idea
+*.class
+target
+*.log
+*\log
+*.iml
+
+
+.idea/vcs.xml
