@@ -1,0 +1,20 @@
+**************************
+Name: POSTAL SERVICE
+Application Developer: Ashwath Narayanan Sundaresan
+Instructor Name: Prof.Mark Grechanik
+Project Description:
+
+This application is Postal Service that is aimed towards the mailers and PS administrators in various levels.
+PS like to streamline business process, reduce the manual verification cost, improve mail verification process,
+automate mail verification activities. The PS application has 2 user types : Mailer and Admin.
+The admin has access to all the details provided by the user and also updates the tracking information of the package,
+generate report. PS application also improve mailer experience, the application interface for the mailer consists of
+various benefits and services. The application also provides functionality to users to create personal profiles,
+Easy process of mail entry, Mailing documentation to be submitted electronically, track the package details,
+each mailer can participate in Full Service IMB( paid service)  and Basic Service IMB. The application has a distributed
+architecture that allows multiple users to access the application . It also interacts with external systems such as
+relational and non-relational databases. Different middleware are used for interfacing the application with external
+systems.
+
+
+Execution steps:
