@@ -1,4 +1,4 @@
-package java.edu.uic.cs.postalservice.entity;
+package edu.uic.cs.postalservice.entity;
 
 /**
  * Created with IntelliJ IDEA.
