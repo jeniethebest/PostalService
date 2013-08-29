@@ -23,11 +23,13 @@ Execution steps:
 For Intellij
 * Configuring a JBoss server : 
 	Goto:	File->Settings 
-	Application Servers: Click '+' : Give JBoss home as: C:\workspace\PostalService\server\jboss
+	Application Servers: Click '+' 
+	Give JBoss home as: C:\workspace\PostalService\server\jboss
 	
 * Creating project Artifact:
 	Goto:	File->Project Structure
-	Select Artifacts: click '+' : Name the artifact as: PostalService:war type: Archive
+	Select Artifacts: click '+' 
+	Name the artifact as: PostalService:war type: Archive
 	//You will find the project structure in the Output Layout. 
 			
 * Setting up jboss configuration for artifact deployment:
