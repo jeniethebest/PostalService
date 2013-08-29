@@ -16,3 +16,23 @@ Project Description:
 
 
 Execution steps:
+* Download the contents of the PostalService folder to a folder named: C:\workspace\PostalService\server\jboss
+* Import maven project in eclipse IDE or IntelliJ 
+* Copy the contents of PostalServiceC:\workspace\PostalService\config\jboss to C:\workspace\PostalService\server\jboss
+
+For Intellij
+* Configuring a JBoss server : 
+	Goto:	File->Settings 
+	Application Servers: Click '+' : Give JBoss home as: C:\workspace\PostalService\server\jboss
+	
+* Creating project Artifact:
+	Goto:	File->Project Structure
+	Select Artifacts: click '+' : Name the artifact as: PostalService:war type: Archive
+	//You will find the project structure in the Output Layout. 
+			
+* Setting up jboss configuration for artifact deployment:
+	Goto:	Run->Edit Configuration
+			Click '+' : Select the application server to jboss server which was created.
+			Select deployment tab: Add the war which needs to be deployed. 
+			
+// For eclipse: Executing steps to be updated.
