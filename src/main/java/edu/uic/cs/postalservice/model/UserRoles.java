@@ -12,13 +12,10 @@ import javax.persistence.Table;
  * To change this template use File | Settings | File Templates.
  */
 
-@Entity
-@Table(name="USER_ROLES",uniqueConstraints = {})
 public class UserRoles {
     private int roleId;
     private String roleType;
 
-    @Column(name="ROLE_ID",unique = true, nullable = false)
     public int getRoleId() {
         return roleId;
     }
@@ -27,7 +24,6 @@ public class UserRoles {
         this.roleId = roleId;
     }
 
-    @Column(name="ROLE_TYPE",nullable = false, unique = true)
     public String getRoleType() {
         return roleType;
     }

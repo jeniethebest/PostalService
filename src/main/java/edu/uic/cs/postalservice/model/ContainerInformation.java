@@ -12,13 +12,10 @@ import javax.persistence.Table;
  * To change this template use File | Settings | File Templates.
  */
 
-@Entity
-@Table(name="CONTAINER_DETAILS",uniqueConstraints = {})
-public class ContainerDetails {
+public class ContainerInformation {
     private Integer containerId;
     private String containerName;
 
-    @Column(name="CONTAINER_ID",unique = true,nullable = false)
     public Integer getContainerId() {
         return containerId;
     }
@@ -27,7 +24,6 @@ public class ContainerDetails {
         this.containerId = containerId;
     }
 
-    @Column(name="CONTAINER_NAME",unique=true,nullable = false)
     public String getContainerName() {
         return containerName;
     }

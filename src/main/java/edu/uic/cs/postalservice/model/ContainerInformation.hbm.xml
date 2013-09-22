@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="edu.uic.cs.postalservice.model.ContainerInformation" table="CONTAINER_TYPE">
+        <meta attribute="class-description">
+            This class contains the Container Details information
+        </meta>
+
+        <id name="containerId" column="CONTAINER_ID">
+            <generator class="native"/>
+        </id>
+        <property name="containerName" column="CONTAINER_NAME"/>
+    </class>
+</hibernate-mapping>
