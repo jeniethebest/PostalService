@@ -9,5 +9,21 @@ package edu.uic.cs.postalservice.model;
  */
 public class PackageType {
     private Integer package_id;
+    private String package_name;
 
+    public Integer getPackage_id() {
+        return package_id;
+    }
+
+    public void setPackage_id(Integer package_id) {
+        this.package_id = package_id;
+    }
+
+    public String getPackage_name() {
+        return package_name;
+    }
+
+    public void setPackage_name(String package_name) {
+        this.package_name = package_name;
+    }
 }

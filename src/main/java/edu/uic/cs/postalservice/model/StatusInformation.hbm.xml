@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="edu.uic.cs.postalservice.model.StatusInformation" table="STATUS_INFORMATION">
+        <id name="status_id" column="STATUS_ID"/>
+        <property name="status_type" column="STATUS_TYPE"/>
+    </class>
+
+</hibernate-mapping>

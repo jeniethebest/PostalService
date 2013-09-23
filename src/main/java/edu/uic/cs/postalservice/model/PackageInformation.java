@@ -13,26 +13,20 @@ import java.util.Date;
  * Time: 5:28 PM
  * To change this template use File | Settings | File Templates.
  */
-@Entity
-@Table(name="PACKAGE_INFORMATION" ,uniqueConstraints = {
-        @UniqueConstraint(columnNames = "PACKAGE_ID")
-})
 
 public class PackageInformation {
 
     private Integer packageId;
     private Integer packageType;
     private Double packageWeight;
-    private String packageSource;
-    private String packageDestination;
-    private Date startDateTime;
-    private Date endDateTime;
+    private AddressInformation packageSource;
+    private AddressInformation packageDestination;
 
     public PackageInformation()
     {
 
     }
-    public PackageInformation(Integer packageType, Double packageWeight, String packageSource, String packageDestination)
+    public PackageInformation(Integer packageType, Double packageWeight, AddressInformation packageSource, AddressInformation packageDestination)
     {
         this.packageType = packageType;
         this.packageWeight = packageWeight;
@@ -40,9 +34,6 @@ public class PackageInformation {
         this.packageDestination = packageDestination;
     }
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name="PACKAGE_ID", unique = true, nullable = false)
     public Integer getPackageId() {
         return packageId;
     }
@@ -51,7 +42,6 @@ public class PackageInformation {
         this.packageId = packageId;
     }
 
-    @Column(name="PACKAGE_TYPE",nullable = false)
     public Integer getPackageType() {
         return packageType;
     }
@@ -60,7 +50,6 @@ public class PackageInformation {
         this.packageType = packageType;
     }
 
-    @Column(name="PACKAGE_WEIGHT", nullable = false)
     public Double getPackageWeight() {
         return packageWeight;
     }
@@ -69,41 +58,42 @@ public class PackageInformation {
         this.packageWeight = packageWeight;
     }
 
-
-    @Column(name="PACKAGE_SOURCE", nullable= false)
-    public String getPackageSource() {
+    public AddressInformation getPackageSource() {
         return packageSource;
     }
 
-    public void setPackageSource(String packageSource) {
+    public void setPackageSource(AddressInformation packageSource) {
         this.packageSource = packageSource;
     }
 
-    @Column(name="PACKAGE_DESTINATION", nullable= false)
-    public String getPackageDestination() {
+    public AddressInformation getPackageDestination() {
         return packageDestination;
     }
 
-    public void setPackageDestination(String packageDestination) {
+    public void setPackageDestination(AddressInformation packageDestination) {
         this.packageDestination = packageDestination;
     }
 
-    @Temporal(TemporalType.DATE)
-    @Column(name="PACKAGE_START_DATE_TIME")
-    public Date getStartDateTime() {
-        return startDateTime;
+    public boolean equals (Object obj)
+    {
+        if(obj == null) return false;
+        if(!this.getClass().equals(obj.getClass())) return false;
+        PackageInformation obj2 = (PackageInformation) obj;
+
+        if((this.getPackageId() == obj2.getPackageId()) && (this.getPackageWeight() == obj2.getPackageWeight())
+            && (this.getPackageType() == obj2.getPackageType()) && (this.getPackageSource().equals(obj2.getPackageSource()))
+            && (this.getPackageDestination().equals(obj2.getPackageDestination())) )
+        {
+            return true;
+        }
+        return false;
     }
 
-    public void setStartDateTime(Date startDateTime) {
-        this.startDateTime = startDateTime;
-    }
+    public int hashCode()
+    {
+        int tmp=0;
+        tmp = packageId ;
+        return tmp;
 
-    @Column(name="PACKAGE_END_DATE_TIME")
-    public Date getEndDateTime() {
-        return endDateTime;
-    }
-
-    public void setEndDateTime(Date endDateTime) {
-        this.endDateTime = endDateTime;
     }
 }

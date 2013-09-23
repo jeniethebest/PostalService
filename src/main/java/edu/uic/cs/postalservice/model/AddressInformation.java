@@ -9,10 +9,27 @@ package edu.uic.cs.postalservice.model;
  */
 public class AddressInformation {
     private Integer address_id;
-    private Integer street_number;
     private String street_name;
     private String city;
     private String state;
+    private Integer zipcode;
+
+    public AddressInformation(){};
+
+    public AddressInformation(String street_name, String city, String state, Integer zipcode) {
+        this.street_name = street_name;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+    }
+
+    public Integer getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(Integer zipcode) {
+        this.zipcode = zipcode;
+    }
 
     public Integer getAddress_id() {
         return address_id;
@@ -20,14 +37,6 @@ public class AddressInformation {
 
     public void setAddress_id(Integer address_id) {
         this.address_id = address_id;
-    }
-
-    public Integer getStreet_number() {
-        return street_number;
-    }
-
-    public void setStreet_number(Integer street_number) {
-        this.street_number = street_number;
     }
 
     public String getStreet_name() {

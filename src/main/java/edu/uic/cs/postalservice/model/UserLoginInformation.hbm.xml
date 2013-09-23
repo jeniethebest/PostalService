@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="edu.uic.cs.postalservice.model.UserLoginInformation" table="USER_LOGIN_INFORMATION">
+        <meta attribute="class-description" >
+            The class UserLoginInformation has the details about the user's login details
+        </meta>
+        <many-to-one name="userId" column="USER_ID" unique="true" class="edu.uic.cs.postalservice.model.UserInformation" not-null="true"/>
+        <property name="userName" column="USER_NAME"/>
+        <property name="passWord" column="PASSWORD"/>
+
+    </class>
+</hibernate-mapping>

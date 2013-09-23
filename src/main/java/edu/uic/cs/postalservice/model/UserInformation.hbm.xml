@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="edu.uic.cs.postalservice.model.UserInformation" table="USER_INFORMATION">
+        <id name="userId" column="USER_ID">
+            <generator class="native"/>
+        </id>
+        <property name="dob" column="DOB"/>
+        <property name="email" column="EMAIL"/>
+        <property name="firstName" column="FIRST_NAME"/>
+        <property name="lastName" column="LAST_NAME"/>
+        <property name="location" column="LOCATION"/>
+        <many-to-one name="roleid" column="ROLE_ID" class="edu.uic.cs.postalservice.model.UserRoles" not-null="true"/>
+    </class>
+</hibernate-mapping>

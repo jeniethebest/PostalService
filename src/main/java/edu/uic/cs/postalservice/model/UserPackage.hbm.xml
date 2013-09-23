@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="edu.uic.cs.postalservice.model.UserPackage" table="USER_PACKAGE">
+        <meta attribute="class-description" >
+            The class UserPackage has the details about the user's package details
+        </meta>
+
+
+
+
+    </class>
+</hibernate-mapping>

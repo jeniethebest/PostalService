@@ -16,10 +16,7 @@ import javax.persistence.Table;
 public class UserPackage {
     private Integer userId;
     private Integer packageId;
-    private Integer trackId;
-    private Integer stationId;
 
-    @Column(name="USER_ID")
     public Integer getUserId() {
         return userId;
     }
@@ -28,31 +25,12 @@ public class UserPackage {
         this.userId = userId;
     }
 
-    @Column(name="PACKAGE_ID")
     public Integer getPackageId() {
         return packageId;
     }
 
     public void setPackageId(Integer packageId) {
         this.packageId = packageId;
-    }
-
-    @Column(name="STATION_ID")
-    public Integer getStationId() {
-        return stationId;
-    }
-
-    public void setStationId(Integer stationId) {
-        this.stationId = stationId;
-    }
-
-    @Column(name="TRACK_ID")
-    public Integer getTrackId() {
-        return trackId;
-    }
-
-    public void setTrackId(Integer trackId) {
-        this.trackId = trackId;
     }
 
 }

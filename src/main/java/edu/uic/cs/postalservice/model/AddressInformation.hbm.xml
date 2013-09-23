@@ -11,10 +11,10 @@
         <id name="address_id" column="ADDRESS_ID">
             <generator class="native"/>
         </id>
-        <property name="street_number" column="STREET_NUMBER"/>
         <property name="street_name" column="STREET_NAME"/>
         <property name="city" column="CITY"/>
         <property name="state" column="STATE"/>
+        <property name="zipcode" column="ZIPCODE"/>
     </class>
 
 </hibernate-mapping>

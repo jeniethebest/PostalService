@@ -10,26 +10,22 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.util.Date;
 
-@Entity
-@Table(name = "USER_INFO", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "USER_ID"),
-        @UniqueConstraint(columnNames = "EMAIL") })
-public class UserInfo
+public class UserInformation
 {
     private Integer userId;
     private String firstName;
     private String lastName;
-    private Date dob;
+    private String dob;
     private String email;
     private String location;
     private Integer roleid;
 
-    public UserInfo()
+    public UserInformation()
     {
 
     }
 
-    public UserInfo(String firstName, String lastName, String email, Date dob, Integer roleid, String location)
+    public UserInformation(String firstName, String lastName, String email, String dob, Integer roleid, String location)
     {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -39,9 +35,6 @@ public class UserInfo
         this.location = location;
     }
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "USER_ID", unique = true, nullable = false)
     public Integer getUserId()
     {
         return this.userId;
@@ -52,7 +45,6 @@ public class UserInfo
         this.userId = userId;
     }
 
-    @Column(name = "USER_EMAIL", unique = true, nullable = false, length = 30)
     public String getEmail()
     {
         return this.email;
@@ -62,7 +54,6 @@ public class UserInfo
         this.email = email;
     }
 
-    @Column(name = "USER_FIRST_NAME", unique = false, nullable = false, length = 20)
     public String getFirstName()
     {
         return this.firstName;
@@ -73,7 +64,6 @@ public class UserInfo
         this.firstName = firstName;
     }
 
-    @Column(name = "USER_LAST_NAME", unique = false, nullable = false, length = 20)
     public String getLastName()
     {
         return this.lastName;
@@ -84,16 +74,14 @@ public class UserInfo
         this.lastName = lastName;
     }
 
-    @Column(name = "USER_DOB", nullable = false)
-    public Date getDob() {
+    public String getDob() {
         return dob;
     }
 
-    public void setDob(Date dob) {
+    public void setDob(String dob) {
         this.dob = dob;
     }
 
-    @Column(name = "USER_LOCATION", nullable = false)
     public String getLocation() {
         return location;
     }
@@ -102,7 +90,6 @@ public class UserInfo
         this.location = location;
     }
 
-    @Column(name= "USER_ROLE_ID",nullable =false)
     public Integer getRoleid() {
         return roleid;
     }
