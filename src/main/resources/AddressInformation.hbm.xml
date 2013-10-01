@@ -4,11 +4,11 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="edu.uic.cs.postalservice.model.AddressInformation" table="ADDRESS_INFORMATION">
+    <class name="edu.uic.cs.postalservice.model.AddressInformation" table="ADDRESS_INFORMATION1">
         <meta attribute="class-description">
             This class contains the Address Information
         </meta>
-        <id name="address_id" column="ADDRESS_ID">
+        <id name="address_id" type="int" column="ADDRESS_ID">
             <generator class="native"/>
         </id>
         <property name="street_name" column="STREET_NAME"/>

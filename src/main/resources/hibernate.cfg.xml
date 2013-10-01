@@ -7,7 +7,7 @@
         <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://127.0.0.1:3306/postalservice1</property>
+        <property name="connection.url">jdbc:mysql://127.0.0.1:3306/postalservice</property>
         <property name="connection.username">psdbuser</property>
         <property name="connection.password">postaldb</property>
 
@@ -21,7 +21,7 @@
 
 
         <!-- Mapping files for the varios classes which needs to be persisted -->
-        <mapping resource=""
+        <mapping resource="AddressInformation.hbm.xml"/>
         <!--Configuring the model class -->
         <!--<mapping class="edu.uic.cs.postalservice.model.User"/>-->
         <!--<mapping class="edu.uic.cs.postalservice.model.PackageInformation"/>-->

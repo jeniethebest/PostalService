@@ -51,16 +51,16 @@ public class V1_Package {
 //    @Path("/{packageType}/{packageWeight}/{packageSource}/{packageDestination}/")
     public String putPackage()
     {
-        PackageInformation pkginfo = new PackageInformation();
-        pkginfo.setPackageType(2);
-        pkginfo.setPackageWeight(1.3);
-        pkginfo.setPackageSource("chicago");
-        pkginfo.setPackageDestination("sanjose");
-
-        Session session = HibernateUtils.getSessionFactory().openSession();
-        session.beginTransaction();
-        session.save(pkginfo);
-        session.getTransaction().commit();
+//        PackageInformation pkginfo = new PackageInformation();
+//        pkginfo.setPackageType(2);
+//        pkginfo.setPackageWeight(1.3);
+//        pkginfo.setPackageSource("chicago");
+//        pkginfo.setPackageDestination("sanjose");
+//
+//        Session session = HibernateUtils.getSessionFactory().openSession();
+//        session.beginTransaction();
+//        session.save(pkginfo);
+//        session.getTransaction().commit();
 
         return "Successfully updated the package information\n";
 

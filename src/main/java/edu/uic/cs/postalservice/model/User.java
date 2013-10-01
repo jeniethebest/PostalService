@@ -8,10 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-@Entity
-@Table(name = "USERS", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "USER_ID"),
-        @UniqueConstraint(columnNames = "EMAIL") })
 public class User
 {
     private Integer userId;
@@ -31,9 +27,6 @@ public class User
         this.email = email;
     }
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "USER_ID", unique = true, nullable = false)
     public Integer getUserId()
     {
         return this.userId;
@@ -44,7 +37,6 @@ public class User
         this.userId = userId;
     }
 
-    @Column(name = "EMAIL", unique = true, nullable = false, length = 30)
     public String getEmail()
     {
         return this.email;
@@ -54,7 +46,6 @@ public class User
         this.email = email;
     }
 
-    @Column(name = "FIRST_NAME", unique = false, nullable = false, length = 20)
     public String getFirstName()
     {
         return this.firstName;
@@ -65,7 +56,6 @@ public class User
         this.firstName = firstName;
     }
 
-    @Column(name = "LAST_NAME", unique = false, nullable = false, length = 20)
     public String getLastName()
     {
         return this.lastName;
