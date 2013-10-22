@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="edu.uic.cs.postalservice.model.PackageInformation" table="PACKAGE_INFORMATION">
+    <class name="edu.uic.cs.postalservice.model.PackageInformation" table="PACKAGE_INFORMATION1">
         <meta attribute="class-description" >
             The class UserLoginInformation has the details about the package information
         </meta>
@@ -12,7 +12,7 @@
         <id name="packageId" column="PACKAGE_ID">
             <generator class="native"/>
         </id>
-        <many-to-one name="packageType" column="PACKAGE_TYPE" class="edu.uic.cs.postalservice.model.PackageType" not-null="true"/>
+        <property name="packageType" column="PACKAGE_TYPE" />
         <property name="packageWeight" column="PACKAGE_WEIGHT" />
         <many-to-one name="packageSource" column="PACKAGE_SOURCE_ID" class="edu.uic.cs.postalservice.model.AddressInformation" not-null="true"/>
         <many-to-one name="packageDestination" column="PACKAGE_DESTINATION_ID" class="edu.uic.cs.postalservice.model.AddressInformation" not-null="true"/>

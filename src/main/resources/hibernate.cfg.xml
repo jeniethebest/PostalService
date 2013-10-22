@@ -22,6 +22,8 @@
 
         <!-- Mapping files for the varios classes which needs to be persisted -->
         <mapping resource="AddressInformation.hbm.xml"/>
+        <mapping resource="PackageInformation.hbm.xml"/>
+
         <!--Configuring the model class -->
         <!--<mapping class="edu.uic.cs.postalservice.model.User"/>-->
         <!--<mapping class="edu.uic.cs.postalservice.model.PackageInformation"/>-->

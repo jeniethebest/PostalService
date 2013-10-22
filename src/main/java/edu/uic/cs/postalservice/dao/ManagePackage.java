@@ -2,6 +2,7 @@ package edu.uic.cs.postalservice.dao;
 
 import edu.uic.cs.postalservice.hibernate.HibernateUtils;
 import edu.uic.cs.postalservice.model.AddressInformation;
+import edu.uic.cs.postalservice.model.PackageInformation;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -50,14 +51,14 @@ public class ManagePackage {
     }
 
     /* Method to add an employee record in the database */
-    public Integer addEmployee(Integer packageType, Double packageWeight, AddressInformation packageSource, AddressInformation packageDestination){
+    public Integer addPackage(Integer packageType, Double packageWeight, AddressInformation packageSource, AddressInformation packageDestination){
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx = null;
-        Integer employeeID = null;
+        Integer packageId = null;
         try{
             tx = session.beginTransaction();
-            Employee employee = new Employee(fname, lname, salary, address);
-            employeeID = (Integer) session.save(employee);
+            PackageInformation obj = new PackageInformation(packageType,packageWeight,packageSource,packageDestination);
+            packageId = (Integer) session.save(obj);
             tx.commit();
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -65,6 +66,36 @@ public class ManagePackage {
         }finally {
             session.close();
         }
-        return employeeID;
+        return packageId;
     }
+
+    /* Method to get the list of all the package information */
+    public void listEmployees( ){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try{
+            tx = session.beginTransaction();
+            List employees = session.createQuery("FROM Employee").list();
+            for (Iterator iterator =
+                         employees.iterator(); iterator.hasNext();){
+                Employee employee = (Employee) iterator.next();
+                System.out.print("First Name: " + employee.getFirstName());
+                System.out.print(" Last Name: " + employee.getLastName());
+                System.out.println(" Salary: " + employee.getSalary());
+                Address add = employee.getAddress();
+                System.out.println("Address ");
+                System.out.println("\tStreet: " +  add.getStreet());
+                System.out.println("\tCity: " + add.getCity());
+                System.out.println("\tState: " + add.getState());
+                System.out.println("\tZipcode: " + add.getZipcode());
+            }
+            tx.commit();
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+    }
+
 }
