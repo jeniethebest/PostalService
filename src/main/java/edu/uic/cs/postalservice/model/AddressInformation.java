@@ -1,5 +1,9 @@
 package edu.uic.cs.postalservice.model;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Ashwath
@@ -8,10 +12,19 @@ package edu.uic.cs.postalservice.model;
  * To change this template use File | Settings | File Templates.
  */
 public class AddressInformation {
+    @SerializedName("address_id")
     private Integer address_id;
+
+    @SerializedName("street_name")
     private String street_name;
+
+    @SerializedName("city")
     private String city;
+
+    @SerializedName("state")
     private String state;
+
+    @SerializedName("zipcode")
     private Integer zipcode;
 
     public AddressInformation(){};
@@ -61,5 +74,20 @@ public class AddressInformation {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+//    public JsonObject toJson(){
+//        JsonElement jso = new JsonObject();
+//        jso.add("address_id",address_id);
+//        jso.add("street_name",street_name);
+//        jso.add("city",city);
+//        jso.add("state",state);
+//        jso.add("zipcode",zipcode);
+//    }
+    public String changeToString()
+    {
+         String addressInformationString =null;
+        addressInformationString ="{ address_id:"+address_id+", street_name:"+street_name+", city:"+city+", zipcode:"+zipcode;
+        return addressInformationString;
     }
 }

@@ -1,11 +1,18 @@
 package edu.uic.cs.postalservice.dao;
 
+import com.google.gson.Gson;
 import edu.uic.cs.postalservice.hibernate.HibernateUtils;
 import edu.uic.cs.postalservice.model.AddressInformation;
 import edu.uic.cs.postalservice.model.PackageInformation;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -70,32 +77,23 @@ public class ManagePackage {
     }
 
     /* Method to get the list of all the package information */
-    public void listEmployees( ){
-        Session session = factory.openSession();
+    public List<PackageInformation> getPackageList( ){
+        Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx = null;
+        List<PackageInformation> packagelist = null;
+        JSONArray json = new JSONArray();
+        Gson gson = new Gson();
         try{
             tx = session.beginTransaction();
-            List employees = session.createQuery("FROM Employee").list();
-            for (Iterator iterator =
-                         employees.iterator(); iterator.hasNext();){
-                Employee employee = (Employee) iterator.next();
-                System.out.print("First Name: " + employee.getFirstName());
-                System.out.print(" Last Name: " + employee.getLastName());
-                System.out.println(" Salary: " + employee.getSalary());
-                Address add = employee.getAddress();
-                System.out.println("Address ");
-                System.out.println("\tStreet: " +  add.getStreet());
-                System.out.println("\tCity: " + add.getCity());
-                System.out.println("\tState: " + add.getState());
-                System.out.println("\tZipcode: " + add.getZipcode());
-            }
+            packagelist = session.createQuery("FROM PackageInformation").list();
             tx.commit();
-        }catch (HibernateException e) {
+        }catch (Exception e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
         }finally {
             session.close();
         }
+        return packagelist;
     }
 
 }

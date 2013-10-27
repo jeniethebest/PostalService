@@ -65,24 +65,27 @@ public class user {
         Session session = HibernateUtils.getSessionFactory().openSession();
         session.beginTransaction();
         String query = "from AddressInformation";
-        List list = session.createQuery(query).list();
+        List<AddressInformation> list = session.createQuery(query).list();
+        Gson gson = new Gson();
+        returnString = gson.toJson(list);
+        session.close();
 
-        Iterator it = list.iterator();
-        try{
-            while(it.hasNext())
-            {
-                Gson gson = new Gson();
-                AddressInformation addressObj = (AddressInformation)it.next();
-                String addressInformation = gson.toJson(addressObj);
-                json.put(addressInformation);
-
-            }
-            returnString = json.toString();
-            session.close();
-        }catch(Exception e)
-        {
-            e.printStackTrace();
-        }
+//        Iterator it = list.iterator();
+//        try{
+//            while(it.hasNext())
+//            {
+//                Gson gson = new Gson();
+//                AddressInformation addressObj = (AddressInformation)it.next();
+//                String addressInformation = gson.toJson(addressObj);
+//                json.put(addressInformation);
+//
+//            }
+//            returnString = json.toString();
+//            session.close();
+//        }catch(Exception e)
+//        {
+//            e.printStackTrace();
+//        }
 
         System.out.println("The size of list is"+list.size());
 

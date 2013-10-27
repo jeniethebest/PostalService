@@ -1,5 +1,7 @@
 package edu.uic.cs.postalservice.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -16,10 +18,19 @@ import java.util.Date;
 
 public class PackageInformation {
 
+    @SerializedName("package_id")
     private Integer packageId;
+
+    @SerializedName("package_type")
     private Integer packageType;
+
+    @SerializedName("package_weight")
     private Double packageWeight;
+
+    @SerializedName("package_source")
     private AddressInformation packageSource;
+
+
     private AddressInformation packageDestination;
 
     public PackageInformation()
