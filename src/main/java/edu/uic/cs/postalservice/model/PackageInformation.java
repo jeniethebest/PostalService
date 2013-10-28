@@ -30,7 +30,7 @@ public class PackageInformation {
     @SerializedName("package_source")
     private AddressInformation packageSource;
 
-
+    @SerializedName("package_destination")
     private AddressInformation packageDestination;
 
     public PackageInformation()

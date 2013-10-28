@@ -2,6 +2,8 @@ package edu.uic.cs.postalservice.model;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -76,18 +78,20 @@ public class AddressInformation {
         this.state = state;
     }
 
-//    public JsonObject toJson(){
-//        JsonElement jso = new JsonObject();
-//        jso.add("address_id",address_id);
-//        jso.add("street_name",street_name);
-//        jso.add("city",city);
-//        jso.add("state",state);
-//        jso.add("zipcode",zipcode);
-//    }
-    public String changeToString()
-    {
-         String addressInformationString =null;
-        addressInformationString ="{ address_id:"+address_id+", street_name:"+street_name+", city:"+city+", zipcode:"+zipcode;
-        return addressInformationString;
+    public JsonElement toJson(){
+        JsonObject jso = new JsonObject();
+        jso.addProperty("address_id",address_id);
+        jso.addProperty("street_name",street_name);
+        jso.addProperty("city",city);
+        jso.addProperty("state",state);
+        jso.addProperty("zipcode",zipcode);
+        return jso;
     }
+
+//    public String changeToString()
+//    {
+//         String addressInformationString =null;
+//        addressInformationString ="{ address_id:"+address_id+", street_name:"+street_name+", city:"+city+", zipcode:"+zipcode;
+//        return addressInformationString;
+//    }
 }

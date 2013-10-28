@@ -11,6 +11,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -86,6 +87,7 @@ public class ManagePackage {
         try{
             tx = session.beginTransaction();
             packagelist = session.createQuery("FROM PackageInformation").list();
+            System.out.println(packagelist.toString());
             tx.commit();
         }catch (Exception e) {
             if (tx!=null) tx.rollback();

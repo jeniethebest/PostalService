@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="edu.uic.cs.postalservice.model.AddressInformation" table="ADDRESS_INFORMATION1">
+    <class name="edu.uic.cs.postalservice.model.AddressInformation" table="ADDRESS_INFORMATION1" lazy="false">
         <meta attribute="class-description">
             This class contains the Address Information
         </meta>

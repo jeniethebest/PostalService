@@ -1,14 +1,13 @@
 package edu.uic.cs.postalservice.rest;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import edu.uic.cs.postalservice.dao.ManagePackage;
 import edu.uic.cs.postalservice.hibernate.HibernateUtils;
 import edu.uic.cs.postalservice.model.AddressInformation;
 import edu.uic.cs.postalservice.model.PackageInformation;
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 import org.hibernate.Session;
 
 import org.hibernate.Query;
@@ -67,8 +66,8 @@ public class V1_Package {
 
         List<Integer> addressIds = new ArrayList<Integer>();
         ManagePackage mPack = ManagePackage.getInstance();
-        addressIds.add(1);
-        addressIds.add(2);
+        addressIds.add(3);
+        addressIds.add(4);
 
         int increment = 0;
         AddressInformation[] addresssArrays = new AddressInformation[2];
@@ -87,7 +86,7 @@ public class V1_Package {
             increment++;
         }
 
-        int package_id = mPack.addPackage(1,500.00,addresssArrays[0],addresssArrays[1]);
+        int package_id = mPack.addPackage(4,35.00,addresssArrays[0],addresssArrays[1]);
           System.out.println("The value of the addressid is:"+addresssArrays[0].getZipcode());
         System.out.println("The value of the addressid is:"+addresssArrays[1].getZipcode());
 
@@ -120,34 +119,34 @@ public class V1_Package {
 //            returnString = jsonAraay.toString();
 //            System.out.println(returnString);
         List<PackageInformation> packagelist = mPack.getPackageList();
-        JSONArray json = new JSONArray();
+        JsonArray json = new JsonArray();
         Gson gson = new Gson();
-        returnString = gson.toJson(packagelist);
-//        try{
-//            for(PackageInformation pack : packagelist){
+//        returnString = gson.toJson(packagelist);
+        try{
+            for(PackageInformation pack : packagelist){
+                 JsonObject jsonObj = new JsonObject();
+                AddressInformation sourceAddress = pack.getPackageSource();
+                String sourceAddressJson =  gson.toJson(sourceAddress);
+                jsonObj.add("sourceAddress",sourceAddress.toJson());
+                AddressInformation destinationAddress = pack.getPackageDestination();
+                String destinationAddressJson =  gson.toJson(destinationAddress);
+                jsonObj.add("destinationAddress",destinationAddress.toJson());
+                jsonObj.addProperty("package_id",pack.getPackageId());
+                jsonObj.addProperty("package_type",pack.getPackageType());
+                jsonObj.addProperty("package_weight",pack.getPackageWeight());
+//                JSONObject jsonObjSource = new JSONObject();
+//                JSONObject jsonObjDestination = new JSONObject();
 //                JSONObject jsonObj = new JSONObject();
 //                AddressInformation sourceAddress = pack.getPackageSource();
-//                JsonElement sourceAddressJson =  gson.toJsonTree(sourceAddress);
-//                jsonObj.put("sourceAddress",sourceAddressJson);
 //                AddressInformation destinationAddress = pack.getPackageDestination();
-//                JsonElement destinationeAddressJson =  gson.toJsonTree(destinationAddress);
-//                jsonObj.put("destinationAddress",destinationeAddressJson);
-//                jsonObj.put("package_id",pack.getPackageId());
-//                jsonObj.put("package_type",pack.getPackageType());
-//                jsonObj.put("package_weight",pack.getPackageWeight());
-////                JSONObject jsonObjSource = new JSONObject();
-////                JSONObject jsonObjDestination = new JSONObject();
-////                JSONObject jsonObj = new JSONObject();
-////                AddressInformation sourceAddress = pack.getPackageSource();
-////                AddressInformation destinationAddress = pack.getPackageDestination();
-//
-//
-//                  json.put(jsonObj);
-//            }
-//            returnString = json.toString();
-//        }catch(JSONException je){
-//                returnString = je.toString();
-//        }
+
+
+                  json.add(jsonObj);
+            }
+            returnString = json.toString();
+        }catch(Exception je){
+                returnString = je.toString();
+        }
         return Response.status(200).entity(returnString).build();
 
     }
