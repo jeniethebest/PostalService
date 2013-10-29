@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import edu.uic.cs.postalservice.hibernate.HibernateUtils;
 import edu.uic.cs.postalservice.model.AddressInformation;
+import edu.uic.cs.postalservice.model.ContainerInformation;
+import edu.uic.cs.postalservice.model.PackageType;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.codehaus.jettison.json.JSONArray;
@@ -15,6 +17,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,21 +32,6 @@ public class user {
     {
 
         String output = "Jersey say : " + firstname;
-
-/*        Session session = HibernateUtils.getSessionFactory().openSession();
-
-        session.beginTransaction();
-        User user = new User();
-
-        user.setFirstName("Ashwath");
-        user.setLastName("Narayanan");
-        user.setEmail("test@email.com");
-        session.save(user);
-        PackageInformation pkg = new PackageInformation() ;
-
-        session.getTransaction().commit();*/
-
-//        return Response.status(200).entity(output).build();
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx =  session.beginTransaction();
 
@@ -54,6 +42,47 @@ public class user {
 
         return "Status updated successfully\n";
 
+    }
+
+//    @GET
+//    @Path("/detailsPut")
+//    public Response detailsPut(){
+//
+//        packagetypePut();
+//        containerPut();
+//        return Response.status(200).entity(ret+"\nReturning after executing /packagetypePut and /containerPut").build();
+//    }
+
+    @GET
+    @Path("/packagetypePut")
+    public Response packagetypePut(){
+
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        PackageType obj = new PackageType("box");
+        PackageType obj1 = new PackageType("container");
+        session.save(obj);
+        session.save(obj1);
+        tx.commit();
+        session.close();
+        return Response.status(200).entity("Package information successfully updated in the database").build();
+    }
+
+    @GET
+    @Path("/containerPut")
+    public Response containerPut(){
+
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        ContainerInformation obj = new ContainerInformation("truck");
+        ContainerInformation obj1 = new ContainerInformation("van");
+        ContainerInformation obj2 = new ContainerInformation("tempo");
+        session.save(obj);
+        session.save(obj1);
+        session.save(obj2);
+        tx.commit();
+        session.close();
+        return Response.status(200).entity("Container information successfully updated in the database").build();
     }
 
     @GET
@@ -69,27 +98,7 @@ public class user {
         Gson gson = new Gson();
         returnString = gson.toJson(list);
         session.close();
-
-//        Iterator it = list.iterator();
-//        try{
-//            while(it.hasNext())
-//            {
-//                Gson gson = new Gson();
-//                AddressInformation addressObj = (AddressInformation)it.next();
-//                String addressInformation = gson.toJson(addressObj);
-//                json.put(addressInformation);
-//
-//            }
-//            returnString = json.toString();
-//            session.close();
-//        }catch(Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-
         System.out.println("The size of list is"+list.size());
-
-
         return Response.status(200).entity(returnString).build();
     }
 
@@ -115,9 +124,6 @@ public class user {
         }
         session.close();
         return Response.status(200).entity(addressInformation).build();
-
-
-
     }
 
 }

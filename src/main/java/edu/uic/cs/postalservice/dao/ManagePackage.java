@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import edu.uic.cs.postalservice.hibernate.HibernateUtils;
 import edu.uic.cs.postalservice.model.AddressInformation;
 import edu.uic.cs.postalservice.model.PackageInformation;
+import edu.uic.cs.postalservice.model.PackageType;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -59,7 +60,7 @@ public class ManagePackage {
     }
 
     /* Method to add an employee record in the database */
-    public Integer addPackage(Integer packageType, Double packageWeight, AddressInformation packageSource, AddressInformation packageDestination){
+    public Integer addPackage(PackageType packageType, Double packageWeight, AddressInformation packageSource, AddressInformation packageDestination){
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx = null;
         Integer packageId = null;

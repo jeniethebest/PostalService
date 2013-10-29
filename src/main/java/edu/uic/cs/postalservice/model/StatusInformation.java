@@ -1,5 +1,8 @@
 package edu.uic.cs.postalservice.model;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Ashwath
@@ -10,6 +13,16 @@ package edu.uic.cs.postalservice.model;
 public class StatusInformation {
     private Integer status_id;
     private String status_type;
+
+    public StatusInformation()
+    {
+
+    }
+
+    public StatusInformation(String status_type)
+    {
+        this.status_type = status_type;
+    }
 
     public Integer getStatus_id() {
         return status_id;
@@ -25,5 +38,13 @@ public class StatusInformation {
 
     public void setStatus_type(String status_type) {
         this.status_type = status_type;
+    }
+
+    public JsonElement toJson()
+    {
+        JsonObject jso = new JsonObject();
+        jso.addProperty("status_id",status_id);
+        jso.addProperty("status_type",status_type);
+        return jso;
     }
 }

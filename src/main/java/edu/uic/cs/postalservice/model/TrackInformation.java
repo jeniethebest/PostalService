@@ -11,14 +11,19 @@ import javax.persistence.Table;
  * Time: 7:15 PM
  * To change this template use File | Settings | File Templates.
  */
-@Entity
-@Table(name="TRACK_INFORMATION",uniqueConstraints = {})
+
 public class TrackInformation {
     private Integer trackId;
+    private Integer packageId;
     private Integer containerId;
     private Integer statusId;
 
-    @Column(name ="TRACK_ID",unique = true,nullable = false)
+    public TrackInformation(int packageId,int containerId,int statusId){
+        this.packageId = packageId;
+        this.containerId = containerId;
+        this.statusId = statusId;
+    }
+
     public Integer getTrackId() {
         return trackId;
     }
@@ -27,7 +32,6 @@ public class TrackInformation {
         this.trackId = trackId;
     }
 
-    @Column(name ="CONTAINER_ID",unique = true,nullable = false)
     public Integer getContainerId() {
         return containerId;
     }
@@ -36,7 +40,6 @@ public class TrackInformation {
         this.containerId = containerId;
     }
 
-    @Column(name ="STATUS_ID",unique = true, nullable = false)
     public Integer getStatusId() {
         return statusId;
     }

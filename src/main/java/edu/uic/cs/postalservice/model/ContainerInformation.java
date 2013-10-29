@@ -1,5 +1,8 @@
 package edu.uic.cs.postalservice.model;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -16,6 +19,16 @@ public class ContainerInformation {
     private Integer containerId;
     private String containerName;
 
+    public ContainerInformation()
+    {
+
+    }
+
+    public ContainerInformation(String containerName)
+    {
+        this.containerName = containerName;
+    }
+
     public Integer getContainerId() {
         return containerId;
     }
@@ -30,5 +43,13 @@ public class ContainerInformation {
 
     public void setContainerName(String containerName) {
         this.containerName = containerName;
+    }
+
+    public JsonElement toJson()
+    {
+        JsonObject jso = new JsonObject();
+        jso.addProperty("container_id",containerId);
+        jso.addProperty("container_name",containerName);
+        return jso;
     }
 }

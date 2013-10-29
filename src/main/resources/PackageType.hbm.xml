@@ -4,11 +4,11 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="edu.uic.cs.postalservice.model.PackageType" table="PACKAGE_TYPE">
+    <class name="edu.uic.cs.postalservice.model.PackageType" table="PACKAGE_TYPE1" lazy="false">
         <meta attribute="class-description">
             This class contains the Package Type information.
         </meta>
-        <id name="package_id" column="PACKAGE_ID">
+        <id name="package_type_id" column="PACKAGE_TYPE_ID">
             <generator class="native"/>
         </id>
         <property name="package_name" column="PROPERTY_NAME"/>

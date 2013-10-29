@@ -14,7 +14,7 @@
         <property name="connection.pool_size">1</property>
 
         <!-- Drop and re-create the database schema on startup -->
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.hbm2ddl.auto">create-drop</property>
 
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
@@ -22,8 +22,9 @@
 
         <!-- Mapping files for the varios classes which needs to be persisted -->
         <mapping resource="AddressInformation.hbm.xml"/>
+        <mapping resource="PackageType.hbm.xml"/>
+        <mapping resource="ContainerInformation.hbm.xml"/>
         <mapping resource="PackageInformation.hbm.xml"/>
-
         <!--Configuring the model class -->
         <!--<mapping class="edu.uic.cs.postalservice.model.User"/>-->
         <!--<mapping class="edu.uic.cs.postalservice.model.PackageInformation"/>-->

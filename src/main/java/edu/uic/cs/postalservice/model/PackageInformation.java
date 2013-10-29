@@ -22,7 +22,7 @@ public class PackageInformation {
     private Integer packageId;
 
     @SerializedName("package_type")
-    private Integer packageType;
+    private PackageType packageType;
 
     @SerializedName("package_weight")
     private Double packageWeight;
@@ -37,7 +37,7 @@ public class PackageInformation {
     {
 
     }
-    public PackageInformation(Integer packageType, Double packageWeight, AddressInformation packageSource, AddressInformation packageDestination)
+    public PackageInformation(PackageType packageType, Double packageWeight, AddressInformation packageSource, AddressInformation packageDestination)
     {
         this.packageType = packageType;
         this.packageWeight = packageWeight;
@@ -53,11 +53,11 @@ public class PackageInformation {
         this.packageId = packageId;
     }
 
-    public Integer getPackageType() {
+    public PackageType getPackageType() {
         return packageType;
     }
 
-    public void setPackageType(Integer packageType) {
+    public void setPackageType(PackageType packageType) {
         this.packageType = packageType;
     }
 
@@ -85,26 +85,4 @@ public class PackageInformation {
         this.packageDestination = packageDestination;
     }
 
-    public boolean equals (Object obj)
-    {
-        if(obj == null) return false;
-        if(!this.getClass().equals(obj.getClass())) return false;
-        PackageInformation obj2 = (PackageInformation) obj;
-
-        if((this.getPackageId() == obj2.getPackageId()) && (this.getPackageWeight() == obj2.getPackageWeight())
-            && (this.getPackageType() == obj2.getPackageType()) && (this.getPackageSource().equals(obj2.getPackageSource()))
-            && (this.getPackageDestination().equals(obj2.getPackageDestination())) )
-        {
-            return true;
-        }
-        return false;
-    }
-
-    public int hashCode()
-    {
-        int tmp=0;
-        tmp = packageId ;
-        return tmp;
-
-    }
 }

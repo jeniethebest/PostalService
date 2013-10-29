@@ -8,6 +8,7 @@ import edu.uic.cs.postalservice.dao.ManagePackage;
 import edu.uic.cs.postalservice.hibernate.HibernateUtils;
 import edu.uic.cs.postalservice.model.AddressInformation;
 import edu.uic.cs.postalservice.model.PackageInformation;
+import edu.uic.cs.postalservice.model.PackageType;
 import org.hibernate.Session;
 
 import org.hibernate.Query;
@@ -48,7 +49,7 @@ public class V1_Package {
         while (iterator.hasNext()) {
             PackageInformation obj = (PackageInformation) iterator.next();//cast and assign data to Person type object
 
-            System.out.print("\nPrining the values:"+obj.getPackageId() + "\t" + obj.getPackageType() + "\t" + obj.getPackageWeight() + "\n");
+            System.out.print("\nPrining the values:"+obj.getPackageId() + "\t" + obj.getPackageWeight() + "\n");
 //            returnData.concat(obj.getPackageId() + "\t" + obj.getPackageType() + "\t" + obj.getPackageWeight() + "\n");
         }
         session.close();
@@ -61,17 +62,16 @@ public class V1_Package {
     @Path("/packagePut/")
     public String putPackage()
     {
-        int sourcepackage = 1;
-        int destinationpackage = 4;
+        int sourcepackage = 2;
+        int destinationpackage = 3;
+        int package_type_id = 2;
 
         List<Integer> addressIds = new ArrayList<Integer>();
         ManagePackage mPack = ManagePackage.getInstance();
         addressIds.add(3);
         addressIds.add(4);
-
         int increment = 0;
         AddressInformation[] addresssArrays = new AddressInformation[2];
-
         Session session = HibernateUtils.getSessionFactory().openSession();
         session.beginTransaction();
 
@@ -79,18 +79,28 @@ public class V1_Package {
         Query queryStatement = session.createQuery(q1);
         queryStatement.setParameterList("Ids",addressIds);
         List result = queryStatement.list();
-        Iterator it = result.iterator();
+        Iterator ait = result.iterator();
 //
-        while(it.hasNext()){
-            addresssArrays[increment] = (AddressInformation)it.next();
+        while(ait.hasNext()){
+            addresssArrays[increment] = (AddressInformation)ait.next();
             increment++;
         }
 
-        int package_id = mPack.addPackage(4,35.00,addresssArrays[0],addresssArrays[1]);
-          System.out.println("The value of the addressid is:"+addresssArrays[0].getZipcode());
+        String q2 = "from PackageType as pt where pt.package_type_id = :pId";
+        List packagetype_list = session.createQuery(q2)
+                .setInteger("pId", package_type_id).list();
+        Iterator pit = packagetype_list.iterator();
+        PackageType packageType = null;
+        while(pit.hasNext())
+        {
+            packageType =  (PackageType)pit.next();
+        }
+
+        int package_id = mPack.addPackage(packageType,35.00,addresssArrays[0],addresssArrays[1]);
+        System.out.println("The value of the addressid is:"+addresssArrays[0].getZipcode());
         System.out.println("The value of the addressid is:"+addresssArrays[1].getZipcode());
 
-//        System.out.println("Added the new package whose id is:" + package_id);
+        System.out.println("Added the new package whose id is:" + package_id);
         session.close();
         return "Successfully updated the package information\n";
 
@@ -124,24 +134,20 @@ public class V1_Package {
 //        returnString = gson.toJson(packagelist);
         try{
             for(PackageInformation pack : packagelist){
-                 JsonObject jsonObj = new JsonObject();
-                AddressInformation sourceAddress = pack.getPackageSource();
-                String sourceAddressJson =  gson.toJson(sourceAddress);
-                jsonObj.add("sourceAddress",sourceAddress.toJson());
-                AddressInformation destinationAddress = pack.getPackageDestination();
-                String destinationAddressJson =  gson.toJson(destinationAddress);
-                jsonObj.add("destinationAddress",destinationAddress.toJson());
+                JsonObject jsonObj = new JsonObject();
                 jsonObj.addProperty("package_id",pack.getPackageId());
-                jsonObj.addProperty("package_type",pack.getPackageType());
                 jsonObj.addProperty("package_weight",pack.getPackageWeight());
-//                JSONObject jsonObjSource = new JSONObject();
-//                JSONObject jsonObjDestination = new JSONObject();
-//                JSONObject jsonObj = new JSONObject();
-//                AddressInformation sourceAddress = pack.getPackageSource();
-//                AddressInformation destinationAddress = pack.getPackageDestination();
 
+                AddressInformation sourceAddress = pack.getPackageSource();
+                jsonObj.add("sourceAddress",sourceAddress.toJson());
 
-                  json.add(jsonObj);
+                AddressInformation destinationAddress = pack.getPackageDestination();
+                jsonObj.add("destinationAddress",destinationAddress.toJson());
+
+                PackageType packageType = pack.getPackageType();
+                jsonObj.add("package_type",packageType.toJson());
+
+                json.add(jsonObj);
             }
             returnString = json.toString();
         }catch(Exception je){

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="edu.uic.cs.postalservice.model.TrackInformation" table="TRACK_INFORMATION1" lazy="true">
+        <meta attribute="class-description" >
+            The class TrackInformation has the tracking information of the various packages.
+        </meta>
+
+        <many-to-one name="trackId" column="TRACK_ID" class="edu.uic.cs.postalservice.model.PackageInformation" unique="true" not-null="true"/>
+        <many-to-one name="containerId" column="CONTAINER_ID"  class="edu.uic.cs.postalservice.model.ContainerInformation" not-null="true"/>
+        <many-to-one name="statusId" column="STATUS_ID"  class="edu.uic.cs.postalservice.model.StatusInformation" not-null="true"/>
+    </class>
+
+</hibernate-mapping>
