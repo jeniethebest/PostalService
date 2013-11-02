@@ -18,10 +18,23 @@ public class TrackInformation {
     private Integer containerId;
     private Integer statusId;
 
+    public TrackInformation()
+    {
+
+    }
+
     public TrackInformation(int packageId,int containerId,int statusId){
         this.packageId = packageId;
         this.containerId = containerId;
         this.statusId = statusId;
+    }
+
+    public Integer getPackageId() {
+        return packageId;
+    }
+
+    public void setPackageId(Integer packageId) {
+        this.packageId = packageId;
     }
 
     public Integer getTrackId() {
@@ -47,4 +60,6 @@ public class TrackInformation {
     public void setStatusId(Integer statusId) {
         this.statusId = statusId;
     }
+
+
 }

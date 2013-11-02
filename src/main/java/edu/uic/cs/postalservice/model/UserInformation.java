@@ -18,14 +18,42 @@ public class UserInformation
     private String dob;
     private String email;
     private String location;
-    private Integer roleid;
+    private UserRoles roleid;
+    private String userLogin;
+    private String userPassword;
 
-    public UserInformation()
-    {
+    public UserInformation(){
 
     }
 
-    public UserInformation(String firstName, String lastName, String email, String dob, Integer roleid, String location)
+    public UserInformation(String firstName, String lastName, String dob, String email, String location, UserRoles roleid, String userLogin, String userPassword) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.email = email;
+        this.location = location;
+        this.roleid = roleid;
+        this.userLogin = userLogin;
+        this.userPassword = userPassword;
+    }
+
+    public String getUserLogin() {
+        return userLogin;
+    }
+
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    public UserInformation(String firstName, String lastName, String email, String dob, UserRoles roleid, String location)
     {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -90,11 +118,11 @@ public class UserInformation
         this.location = location;
     }
 
-    public Integer getRoleid() {
+    public UserRoles getRoleid() {
         return roleid;
     }
 
-    public void setRoleid(Integer roleid) {
+    public void setRoleid(UserRoles roleid) {
         this.roleid = roleid;
     }
 }

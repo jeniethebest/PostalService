@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="edu.uic.cs.postalservice.model.UserInformation" table="USER_INFORMATION">
+    <class name="edu.uic.cs.postalservice.model.UserInformation" table="USER_INFORMATION1">
         <id name="userId" column="USER_ID">
             <generator class="native"/>
         </id>
@@ -13,6 +13,8 @@
         <property name="firstName" column="FIRST_NAME"/>
         <property name="lastName" column="LAST_NAME"/>
         <property name="location" column="LOCATION"/>
+        <property name="userLogin" column="USER_LOGIN"/>
+        <property name="userPassword" column="USER_PASSWORD"/>
         <many-to-one name="roleid" column="ROLE_ID" class="edu.uic.cs.postalservice.model.UserRoles" not-null="true"/>
     </class>
 </hibernate-mapping>

@@ -25,6 +25,9 @@
         <mapping resource="PackageType.hbm.xml"/>
         <mapping resource="ContainerInformation.hbm.xml"/>
         <mapping resource="PackageInformation.hbm.xml"/>
+        <mapping resource="UserRoles.hbm.xml"/>
+        <mapping resource="UserInformation.hbm.xml"/>
+        <mapping resource="StatusInformation.hbm.xml"/>
         <!--Configuring the model class -->
         <!--<mapping class="edu.uic.cs.postalservice.model.User"/>-->
         <!--<mapping class="edu.uic.cs.postalservice.model.PackageInformation"/>-->

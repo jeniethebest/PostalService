@@ -9,7 +9,11 @@
             The class TrackInformation has the tracking information of the various packages.
         </meta>
 
-        <many-to-one name="trackId" column="TRACK_ID" class="edu.uic.cs.postalservice.model.PackageInformation" unique="true" not-null="true"/>
+        <id name="trackId" column="TRACK_ID">
+            <generator class="native"/>
+        </id>
+
+        <many-to-one name="packageId" column="PACKAGE_ID" class="edu.uic.cs.postalservice.model.PackageInformation" unique="true" not-null="true"/>
         <many-to-one name="containerId" column="CONTAINER_ID"  class="edu.uic.cs.postalservice.model.ContainerInformation" not-null="true"/>
         <many-to-one name="statusId" column="STATUS_ID"  class="edu.uic.cs.postalservice.model.StatusInformation" not-null="true"/>
     </class>

@@ -62,14 +62,14 @@ public class V1_Package {
     @Path("/packagePut/")
     public String putPackage()
     {
-        int sourcepackage = 2;
-        int destinationpackage = 3;
+        int sourcepackage = 1;
+        int destinationpackage = 2;
         int package_type_id = 2;
 
         List<Integer> addressIds = new ArrayList<Integer>();
         ManagePackage mPack = ManagePackage.getInstance();
-        addressIds.add(3);
-        addressIds.add(4);
+        addressIds.add(sourcepackage);
+        addressIds.add(destinationpackage);
         int increment = 0;
         AddressInformation[] addresssArrays = new AddressInformation[2];
         Session session = HibernateUtils.getSessionFactory().openSession();

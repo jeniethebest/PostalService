@@ -1,5 +1,8 @@
 package edu.uic.cs.postalservice.model;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -16,6 +19,14 @@ public class UserRoles {
     private int roleId;
     private String roleType;
 
+    public UserRoles(){
+
+    }
+
+    public UserRoles(String roleType){
+        this.roleType = roleType;
+    }
+
     public int getRoleId() {
         return roleId;
     }
@@ -30,5 +41,12 @@ public class UserRoles {
 
     public void setRoleType(String roleType) {
         this.roleType = roleType;
+    }
+
+    public JsonElement toJson(){
+        JsonObject jso = new JsonObject();
+        jso.addProperty("role_id",roleId);
+        jso.addProperty("role_type",roleType);
+        return jso;
     }
 }

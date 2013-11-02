@@ -4,10 +4,10 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="edu.uic.cs.postalservice.model.UserRoles" table="USER_ROLE">
+    <class name="edu.uic.cs.postalservice.model.UserRoles" table="USER_ROLES1">
         <id name="roleId" column="ROLE_ID">
             <generator class="native"/>
         </id>
-        <property name="roleType" column="ROLE_TYPE"/>
+    <property name="roleType" column="ROLE_TYPE"/>
     </class>
 </hibernate-mapping>
