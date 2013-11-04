@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 public class UserInformation
 {
@@ -18,23 +20,42 @@ public class UserInformation
     private String dob;
     private String email;
     private String location;
-    private UserRoles roleid;
+    private UserRoles roleinformation;
     private String userLogin;
     private String userPassword;
+    private List packageInformation;
 
     public UserInformation(){
 
     }
 
-    public UserInformation(String firstName, String lastName, String dob, String email, String location, UserRoles roleid, String userLogin, String userPassword) {
+    public UserInformation(String firstName, String lastName, String dob, String email, String location, UserRoles roleinformation, String userLogin, String userPassword, List packageInformation) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
         this.email = email;
         this.location = location;
-        this.roleid = roleid;
+        this.roleinformation = roleinformation;
         this.userLogin = userLogin;
         this.userPassword = userPassword;
+        this.packageInformation = packageInformation;
+    }
+    public UserInformation(String firstName, String lastName, String email, String dob, UserRoles roleinformation, String location)
+    {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.dob = dob;
+        this.roleinformation = roleinformation;
+        this.location = location;
+    }
+
+    public List getPackageInformation() {
+        return packageInformation;
+    }
+
+    public void setPackageInformation(List packageInformation) {
+        this.packageInformation = packageInformation;
     }
 
     public String getUserLogin() {
@@ -53,15 +74,6 @@ public class UserInformation
         this.userPassword = userPassword;
     }
 
-    public UserInformation(String firstName, String lastName, String email, String dob, UserRoles roleid, String location)
-    {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.dob = dob;
-        this.roleid = roleid;
-        this.location = location;
-    }
 
     public Integer getUserId()
     {
@@ -118,12 +130,12 @@ public class UserInformation
         this.location = location;
     }
 
-    public UserRoles getRoleid() {
-        return roleid;
+    public UserRoles getRoleinformation() {
+        return roleinformation;
     }
 
-    public void setRoleid(UserRoles roleid) {
-        this.roleid = roleid;
+    public void setRoleinformation(UserRoles roleinformation) {
+        this.roleinformation = roleinformation;
     }
 }
 

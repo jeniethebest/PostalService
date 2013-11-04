@@ -3,6 +3,7 @@ package edu.uic.cs.postalservice.rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import edu.uic.cs.postalservice.dao.ManagePackage;
 import edu.uic.cs.postalservice.hibernate.HibernateUtils;
 import edu.uic.cs.postalservice.model.*;
 import org.hibernate.Session;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 @Path("/user")
 
@@ -51,7 +53,6 @@ public class user {
         userRolesPut();
         statusInformationPut();
         addressInformationPut();
-        userInformationPut();
         return Response.status(200).entity("\nReturning after executing /packagetypePut and /containerPut and userRolesPut").build();
     }
 
@@ -183,26 +184,5 @@ public class user {
         return Response.status(200).entity("Updated status information in the database").build();
     }
 
-    @GET
-    @Path("/userInformationPut")
-    public Response userInformationPut()
-    {
-        Session session = HibernateUtils.getSessionFactory().openSession();
-        Transaction tx = session.beginTransaction();
-        UserRoles userRole = null;
-        String query = "from UserRoles as u where u.roleType = :rType";
-        List<UserRoles> list = session.createQuery(query).setString("rType","admin").list();
-        Iterator it = list.iterator();
-        while(it.hasNext())
-        {
-            userRole = (UserRoles)it.next();
-        }
-        UserInformation obj1 = new UserInformation("ashwath","narayanan","04/26/1989","ashwath26@gmail.com","chicago",userRole,"ashwath26","26061949");
-        UserInformation obj2 = new UserInformation("ashwath sundaresan","narayanan","04/26/1989","ashwath26@gmail.com","chicago",userRole,"ashwath26","26061949");
-        session.save(obj1);
-        session.save(obj2);
-        tx.commit();;
-        session.close();
-        return Response.status(200).entity("Updated userinformation successfully").build();
-    }
+
 }

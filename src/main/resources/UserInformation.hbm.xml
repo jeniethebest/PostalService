@@ -15,6 +15,12 @@
         <property name="location" column="LOCATION"/>
         <property name="userLogin" column="USER_LOGIN"/>
         <property name="userPassword" column="USER_PASSWORD"/>
-        <many-to-one name="roleid" column="ROLE_ID" class="edu.uic.cs.postalservice.model.UserRoles" not-null="true"/>
+        <many-to-one name="roleinformation" column="ROLE_INFORMATION" class="edu.uic.cs.postalservice.model.UserRoles" not-null="true"/>
+        <list name="packageInformation" cascade="all">
+            <key column="packageInformation"/>
+            <list-index column="idx"/>
+            <one-to-many class="edu.uic.cs.postalservice.model.PackageInformation"/>
+        </list>
+
     </class>
 </hibernate-mapping>

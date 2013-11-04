@@ -1,14 +1,17 @@
 package edu.uic.cs.postalservice.dao;
 
 import com.google.gson.Gson;
+import com.sun.rmi.rmid.ExecPermission;
 import edu.uic.cs.postalservice.hibernate.HibernateUtils;
 import edu.uic.cs.postalservice.model.AddressInformation;
 import edu.uic.cs.postalservice.model.PackageInformation;
 import edu.uic.cs.postalservice.model.PackageType;
+import edu.uic.cs.postalservice.model.UserInformation;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -83,8 +86,6 @@ public class ManagePackage {
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx = null;
         List<PackageInformation> packagelist = null;
-        JSONArray json = new JSONArray();
-        Gson gson = new Gson();
         try{
             tx = session.beginTransaction();
             packagelist = session.createQuery("FROM PackageInformation").list();
@@ -98,5 +99,46 @@ public class ManagePackage {
         }
         return packagelist;
     }
+
+    public List<UserInformation> getUserList( ){
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        Transaction tx = null;
+        List<UserInformation> userlist = null;
+        try{
+            tx = session.beginTransaction();
+            userlist = session.createQuery("FROM UserInformation").list();
+
+            System.out.println(userlist.toString());
+            tx.commit();
+        }catch (Exception e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally{
+            session.close();
+        }
+        return userlist;
+    }
+
+    public List<UserInformation> getUserList(int userid){
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        Transaction tx = null;
+        List<UserInformation> userlist = null;
+        try{
+            tx = session.beginTransaction();
+            String q1 = "FROM UserInformation as ui where ui.userId = :uId";
+            Query queryStatement = session.createQuery(q1);
+            queryStatement.setParameter("uId",userid);
+            userlist= queryStatement.list();
+            System.out.println(userlist.toString());
+            tx.commit();
+        }catch (Exception e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally{
+            session.close();
+        }
+        return userlist;
+    }
+
 
 }

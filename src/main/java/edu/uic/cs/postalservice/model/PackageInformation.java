@@ -84,5 +84,4 @@ public class PackageInformation {
     public void setPackageDestination(AddressInformation packageDestination) {
         this.packageDestination = packageDestination;
     }
-
 }

@@ -9,6 +9,7 @@ import edu.uic.cs.postalservice.hibernate.HibernateUtils;
 import edu.uic.cs.postalservice.model.AddressInformation;
 import edu.uic.cs.postalservice.model.PackageInformation;
 import edu.uic.cs.postalservice.model.PackageType;
+import edu.uic.cs.postalservice.model.UserInformation;
 import org.hibernate.Session;
 
 import org.hibernate.Query;
@@ -96,11 +97,13 @@ public class V1_Package {
             packageType =  (PackageType)pit.next();
         }
 
-        int package_id = mPack.addPackage(packageType,35.00,addresssArrays[0],addresssArrays[1]);
+        int package_id1 = mPack.addPackage(packageType,35.00,addresssArrays[0],addresssArrays[1]);
+        int package_id2 = mPack.addPackage(packageType,56.00,addresssArrays[1],addresssArrays[0]);
         System.out.println("The value of the addressid is:"+addresssArrays[0].getZipcode());
         System.out.println("The value of the addressid is:"+addresssArrays[1].getZipcode());
 
-        System.out.println("Added the new package whose id is:" + package_id);
+        System.out.println("Added the new package whose id is:" + package_id1);
+        System.out.println("Added the another new package whose id is:"+package_id2);
         session.close();
         return "Successfully updated the package information\n";
 
@@ -150,10 +153,14 @@ public class V1_Package {
                 json.add(jsonObj);
             }
             returnString = json.toString();
+
         }catch(Exception je){
                 returnString = je.toString();
         }
         return Response.status(200).entity(returnString).build();
-
     }
+
+
+
+
 }

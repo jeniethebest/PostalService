@@ -4,13 +4,14 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="edu.uic.cs.postalservice.model.UserPackage" table="USER_PACKAGE">
-        <meta attribute="class-description" >
-            The class UserPackage has the details about the user's package details
+    <class name="edu.uic.cs.postalservice.model.UserPackage" table="USER_PACKAGE1" >
+        <meta attribute="class-description">
+            This class has the mapping between the various userid's and the packages they own
         </meta>
-
-
-
-
+        <many-to-one name="userId " column="USER_ID" unique="true" class="edu.uic.cs.postalservice.model.UserInformation" not-null="true"/>
+        <set name="packageInformation" cascade="all">
+            <key column="PACKAGE_INFORMATION"/>
+            <one-to-many class="edu.uic.cs.postalservice.model.PackageInformation"/>
+        </set>
     </class>
 </hibernate-mapping>

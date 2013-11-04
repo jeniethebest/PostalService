@@ -3,6 +3,7 @@ package edu.uic.cs.postalservice.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,7 +16,13 @@ import javax.persistence.Table;
 @Table(name="USER_PACKAGES",uniqueConstraints = {})
 public class UserPackage {
     private Integer userId;
-    private Integer packageId;
+    private Set packageInformation;
+
+    public UserPackage(Set packageInformation, Integer userId) {
+        this.packageInformation = packageInformation;
+        this.userId = userId;
+    }
+
 
     public Integer getUserId() {
         return userId;
@@ -25,12 +32,11 @@ public class UserPackage {
         this.userId = userId;
     }
 
-    public Integer getPackageId() {
-        return packageId;
+    public Set getPackageInformation() {
+        return packageInformation;
     }
 
-    public void setPackageId(Integer packageId) {
-        this.packageId = packageId;
+    public void setPackageInformation(Set packageInformation) {
+        this.packageInformation = packageInformation;
     }
-
 }
