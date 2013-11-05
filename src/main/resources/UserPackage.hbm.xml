@@ -8,6 +8,9 @@
         <meta attribute="class-description">
             This class has the mapping between the various userid's and the packages they own
         </meta>
+        <id name="userpackageId" column="USER_ID">
+            <generator class="native"/>
+        </id>
         <many-to-one name="userId " column="USER_ID" unique="true" class="edu.uic.cs.postalservice.model.UserInformation" not-null="true"/>
         <set name="packageInformation" cascade="all">
             <key column="PACKAGE_INFORMATION"/>

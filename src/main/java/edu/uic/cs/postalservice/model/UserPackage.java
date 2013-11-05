@@ -15,12 +15,17 @@ import java.util.Set;
 @Entity
 @Table(name="USER_PACKAGES",uniqueConstraints = {})
 public class UserPackage {
+    private Integer userpackageId;
     private Integer userId;
-    private Set packageInformation;
+    private Integer packageId;
 
-    public UserPackage(Set packageInformation, Integer userId) {
-        this.packageInformation = packageInformation;
+    public UserPackage(Integer packageId, Integer userId) {
+        this.packageId = packageId;
         this.userId = userId;
+    }
+
+    public Integer getUserpackageId() {
+        return userpackageId;
     }
 
 
@@ -32,11 +37,15 @@ public class UserPackage {
         this.userId = userId;
     }
 
-    public Set getPackageInformation() {
-        return packageInformation;
+    public void setUserpackageId(Integer userpackageId) {
+        this.userpackageId = userpackageId;
     }
 
-    public void setPackageInformation(Set packageInformation) {
-        this.packageInformation = packageInformation;
+    public Integer getPackageId() {
+        return packageId;
+    }
+
+    public void setPackageId(Integer packageId) {
+        this.packageId = packageId;
     }
 }

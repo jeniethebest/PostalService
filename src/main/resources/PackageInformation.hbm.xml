@@ -16,6 +16,7 @@
         <property name="packageWeight" column="PACKAGE_WEIGHT" />
         <many-to-one name="packageSource" column="PACKAGE_SOURCE_ID"  class="edu.uic.cs.postalservice.model.AddressInformation" not-null="true"/>
         <many-to-one name="packageDestination" column="PACKAGE_DESTINATION_ID"  class="edu.uic.cs.postalservice.model.AddressInformation" not-null="true"/>
+
     </class>
 
 </hibernate-mapping>

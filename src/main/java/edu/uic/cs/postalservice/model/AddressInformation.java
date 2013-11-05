@@ -88,6 +88,31 @@ public class AddressInformation {
         return jso;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AddressInformation)) return false;
+
+        AddressInformation that = (AddressInformation) o;
+
+        if (address_id != null ? !address_id.equals(that.address_id) : that.address_id != null) return false;
+        if (city != null ? !city.equals(that.city) : that.city != null) return false;
+        if (state != null ? !state.equals(that.state) : that.state != null) return false;
+        if (street_name != null ? !street_name.equals(that.street_name) : that.street_name != null) return false;
+        if (zipcode != null ? !zipcode.equals(that.zipcode) : that.zipcode != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = address_id != null ? address_id.hashCode() : 0;
+        result = 31 * result + (street_name != null ? street_name.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (state != null ? state.hashCode() : 0);
+        result = 31 * result + (zipcode != null ? zipcode.hashCode() : 0);
+        return result;
+    }
 //    public String changeToString()
 //    {
 //         String addressInformationString =null;

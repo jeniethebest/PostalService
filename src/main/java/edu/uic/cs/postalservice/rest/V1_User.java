@@ -17,9 +17,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import javax.ws.rs.Path;
 
@@ -38,8 +36,44 @@ public class V1_User {
     @Path("/userInformationPut")
     public Response userInformationPut()
     {
+        ManagePackage mPack = ManagePackage.getInstance();
+        List<Integer> addressIds = new ArrayList<Integer>();
+        int sourcepackage = 1;
+        int destinationpackage = 2;
+        int package_type_id = 2;
+        int increment = 0;
+
+        AddressInformation[] addresssArrays = new AddressInformation[2];
+        addressIds.add(sourcepackage);
+        addressIds.add(destinationpackage);
+
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
+
+        String q1 = "from AddressInformation as p where p.address_id in (:Ids)";
+        Query queryStatement = session.createQuery(q1);
+        queryStatement.setParameterList("Ids",addressIds);
+        List result = queryStatement.list();
+        Iterator ait = result.iterator();
+
+        while(ait.hasNext()){
+            addresssArrays[increment] = (AddressInformation)ait.next();
+            increment++;
+        }
+
+        String q2 = "from PackageType as pt where pt.package_type_id = :pId";
+        List packagetype_list = session.createQuery(q2)
+                .setInteger("pId", package_type_id).list();
+        Iterator pit = packagetype_list.iterator();
+        PackageType packageType = null;
+        while(pit.hasNext())
+        {
+            packageType =  (PackageType)pit.next();
+        }
+
+        PackageInformation packageinfo = new PackageInformation(packageType,35.00,addresssArrays[0],addresssArrays[1]);
+//        PackageInformation obj2 = new PackageInformation(packageType,56.00,addresssArrays[1],addresssArrays[0]);
+
         UserRoles userRole = null;
         String query = "from UserRoles as u where u.roleType = :rType";
         List<UserRoles> list = session.createQuery(query).setString("rType","admin").list();
@@ -50,13 +84,14 @@ public class V1_User {
 
         }
 
-        ManagePackage mPack = ManagePackage.getInstance();
-        List<PackageInformation> packagelist = mPack.getPackageList();
+//        ArrayList<PackageInformation> packagelist = new ArrayList<PackageInformation>();
+        HashSet<PackageInformation> packageSet = new HashSet<PackageInformation>();
+        packageSet.add(packageinfo);
 
-        UserInformation obj1 = new UserInformation("ashwath","narayanan","04/26/1989","ashwath26@gmail.com","chicago",userRole,"ashwath26","26061949",packagelist);
-        UserInformation obj2 = new UserInformation("ashwath sundaresan","narayanan","04/26/1989","ashwath26@gmail.com","chicago",userRole,"ashwath26","26061949",packagelist);
+        UserInformation obj1 = new UserInformation("ashwath","narayanan","04/26/1989","ashwath26@gmail.com","chicago",userRole,"ashwath26","26061949",packageSet);
+        UserInformation obj2 = new UserInformation("rajiv reddy","Rao","04/26/1989","reddy@gmail.com","chicago",userRole,"reddy","123456",packageSet);
         session.save(obj1);
-        session.save(obj2);
+//        session.save(obj2);
         tx.commit();
         session.close();
         return Response.status(200).entity("Updated userinformation successfully").build();
@@ -82,25 +117,28 @@ public class V1_User {
             jsonObj.addProperty("user_location",userinfo.getLocation());
             jsonObj.add("user_role_information",userinfo.getRoleinformation().toJson());
 
-//            List<PackageInformation> packagelist = userinfo.getPackageInformation();
-//            JsonArray json = new JsonArray();
-//            for(PackageInformation pack : packagelist){
-//                JsonObject jsonObj1 = new JsonObject();
-//                jsonObj1.addProperty("package_id",pack.getPackageId());
-//                jsonObj1.addProperty("package_weight",pack.getPackageWeight());
-//
-//                AddressInformation sourceAddress = pack.getPackageSource();
-//                jsonObj1.add("sourceAddress",sourceAddress.toJson());
-//
-//                AddressInformation destinationAddress = pack.getPackageDestination();
-//                jsonObj1.add("destinationAddress",destinationAddress.toJson());
-//
-//                PackageType packageType = pack.getPackageType();
-//                jsonObj1.add("package_type",packageType.toJson());
-//
-//                json.add(jsonObj1);
-//            }
-//            jsonObj.add("user_packages",json);
+//            HashSet<PackageInformation> packagelist = userinfo.getPackageInformation();
+            Set<PackageInformation> packageset = userinfo.getPackageInformation();
+            System.out.println(packageset.size());
+            JsonArray json = new JsonArray();
+            for(PackageInformation pack : packageset){
+                JsonObject jsonObj1 = new JsonObject();
+                jsonObj1.addProperty("package_id",pack.getPackageId());
+                jsonObj1.addProperty("package_weight",pack.getPackageWeight());
+
+                AddressInformation sourceAddress = pack.getPackageSource();
+                jsonObj1.add("sourceAddress",sourceAddress.toJson());
+
+                AddressInformation destinationAddress = pack.getPackageDestination();
+                jsonObj1.add("destinationAddress",destinationAddress.toJson());
+
+                PackageType packageType = pack.getPackageType();
+                jsonObj1.add("package_type",packageType.toJson());
+
+                json.add(jsonObj1);
+            }
+            jsonObj.add("user_packages",json);
+
             jsonuserarray.add(jsonObj);
         }
         returnString =  jsonuserarray.toString();

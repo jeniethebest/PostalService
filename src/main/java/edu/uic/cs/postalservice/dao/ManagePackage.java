@@ -10,10 +10,7 @@ import edu.uic.cs.postalservice.model.UserInformation;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -63,13 +60,12 @@ public class ManagePackage {
     }
 
     /* Method to add an employee record in the database */
-    public Integer addPackage(PackageType packageType, Double packageWeight, AddressInformation packageSource, AddressInformation packageDestination){
+    public Integer addPackage(PackageInformation obj){
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx = null;
         Integer packageId = null;
         try{
             tx = session.beginTransaction();
-            PackageInformation obj = new PackageInformation(packageType,packageWeight,packageSource,packageDestination);
             packageId = (Integer) session.save(obj);
             tx.commit();
         }catch (HibernateException e) {
@@ -107,7 +103,15 @@ public class ManagePackage {
         try{
             tx = session.beginTransaction();
             userlist = session.createQuery("FROM UserInformation").list();
-
+            for(UserInformation userinfo : userlist){
+                Hibernate.initialize(userinfo.getPackageInformation());
+            }
+//            for(Iterator ite = userlist.iterator(); ite.hasNext();){
+//                UserInformation tempobj = (UserInformation) ite.next();
+//                System.out.println("The id value is"+tempobj.getUserId());
+//                List<PackageInformation> packdetails = tempobj.getPackageInformation();
+//                System.out.println("The number of packages are:"+packdetails.size());
+//            }
             System.out.println(userlist.toString());
             tx.commit();
         }catch (Exception e){

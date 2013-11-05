@@ -23,13 +23,13 @@ public class UserInformation
     private UserRoles roleinformation;
     private String userLogin;
     private String userPassword;
-    private List packageInformation;
+    private Set packageInformation;
 
     public UserInformation(){
 
     }
 
-    public UserInformation(String firstName, String lastName, String dob, String email, String location, UserRoles roleinformation, String userLogin, String userPassword, List packageInformation) {
+    public UserInformation(String firstName, String lastName, String dob, String email, String location, UserRoles roleinformation, String userLogin, String userPassword, Set packageInformation) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
@@ -50,11 +50,11 @@ public class UserInformation
         this.location = location;
     }
 
-    public List getPackageInformation() {
+    public Set getPackageInformation() {
         return packageInformation;
     }
 
-    public void setPackageInformation(List packageInformation) {
+    public void setPackageInformation(Set packageInformation) {
         this.packageInformation = packageInformation;
     }
 

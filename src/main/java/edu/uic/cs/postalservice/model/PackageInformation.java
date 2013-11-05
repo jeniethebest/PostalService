@@ -84,4 +84,34 @@ public class PackageInformation {
     public void setPackageDestination(AddressInformation packageDestination) {
         this.packageDestination = packageDestination;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PackageInformation)) return false;
+
+        PackageInformation that = (PackageInformation) o;
+
+        if (packageDestination != null ? !packageDestination.equals(that.packageDestination) : that.packageDestination != null)
+            return false;
+        if (packageId != null ? !packageId.equals(that.packageId) : that.packageId != null) return false;
+        if (packageSource != null ? !packageSource.equals(that.packageSource) : that.packageSource != null)
+            return false;
+        if (packageType != null ? !packageType.equals(that.packageType) : that.packageType != null) return false;
+        if (packageWeight != null ? !packageWeight.equals(that.packageWeight) : that.packageWeight != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = packageId != null ? packageId.hashCode() : 0;
+        result = 31 * result + (packageType != null ? packageType.hashCode() : 0);
+        result = 31 * result + (packageWeight != null ? packageWeight.hashCode() : 0);
+        result = 31 * result + (packageSource != null ? packageSource.hashCode() : 0);
+        result = 31 * result + (packageDestination != null ? packageDestination.hashCode() : 0);
+        return result;
+    }
 }

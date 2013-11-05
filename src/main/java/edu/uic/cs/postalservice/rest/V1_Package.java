@@ -97,13 +97,13 @@ public class V1_Package {
             packageType =  (PackageType)pit.next();
         }
 
-        int package_id1 = mPack.addPackage(packageType,35.00,addresssArrays[0],addresssArrays[1]);
-        int package_id2 = mPack.addPackage(packageType,56.00,addresssArrays[1],addresssArrays[0]);
-        System.out.println("The value of the addressid is:"+addresssArrays[0].getZipcode());
-        System.out.println("The value of the addressid is:"+addresssArrays[1].getZipcode());
+        PackageInformation obj1 = new PackageInformation(packageType,35.00,addresssArrays[0],addresssArrays[1]);
+        PackageInformation obj2 = new PackageInformation(packageType,56.00,addresssArrays[1],addresssArrays[0]);
 
-        System.out.println("Added the new package whose id is:" + package_id1);
-        System.out.println("Added the another new package whose id is:"+package_id2);
+        int package_id1 = mPack.addPackage(obj1);
+        int package_id2 = mPack.addPackage(obj2);
+
+
         session.close();
         return "Successfully updated the package information\n";
 
