@@ -59,6 +59,28 @@ public class ManagePackage {
         return address;
     }
 
+    public AddressInformation addAddress(AddressInformation objinfo)
+    {
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        Transaction tx = null;
+        Integer addressId = null;
+        AddressInformation address = null;
+        try{
+            tx = session.beginTransaction();
+            address = new AddressInformation(objinfo.getStreet_name(),objinfo.getCity(),objinfo.getState(),objinfo.getZipcode());
+            addressId = (Integer) session.save(address);
+            tx.commit();
+        }catch (HibernateException e){
+            if(tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return address;
+    }
+
+
+
     /* Method to add an employee record in the database */
     public Integer addPackage(PackageInformation obj){
         Session session = HibernateUtils.getSessionFactory().openSession();

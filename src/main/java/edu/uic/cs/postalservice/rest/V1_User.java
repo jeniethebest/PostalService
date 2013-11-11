@@ -12,14 +12,10 @@ import org.hibernate.Session;
 import org.hibernate.Query;
 import org.hibernate.Transaction;
 
-import javax.ws.rs.GET;
+import javax.ws.rs.*;
 
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import java.util.*;
-
-import javax.ws.rs.Path;
 
 /**
  * Created with IntelliJ IDEA.
@@ -72,7 +68,8 @@ public class V1_User {
         }
 
         PackageInformation packageinfo = new PackageInformation(packageType,35.00,addresssArrays[0],addresssArrays[1]);
-//        PackageInformation obj2 = new PackageInformation(packageType,56.00,addresssArrays[1],addresssArrays[0]);
+        PackageInformation packageinfo1 = new PackageInformation(packageType,56.00,addresssArrays[1],addresssArrays[0]);
+        PackageInformation packageinfo2 = new PackageInformation(packageType,500.00,addresssArrays[1],addresssArrays[0]);
 
         UserRoles userRole = null;
         String query = "from UserRoles as u where u.roleType = :rType";
@@ -85,13 +82,20 @@ public class V1_User {
         }
 
 //        ArrayList<PackageInformation> packagelist = new ArrayList<PackageInformation>();
-        HashSet<PackageInformation> packageSet = new HashSet<PackageInformation>();
+
+        // Defining the set of certificates which needs to be persisted in the database
+        HashSet packageSet = new HashSet();
         packageSet.add(packageinfo);
+        packageSet.add(packageinfo1);
+
+        HashSet packageSet1 = new HashSet();
+        packageSet1.add(packageinfo2);
 
         UserInformation obj1 = new UserInformation("ashwath","narayanan","04/26/1989","ashwath26@gmail.com","chicago",userRole,"ashwath26","26061949",packageSet);
-        UserInformation obj2 = new UserInformation("rajiv reddy","Rao","04/26/1989","reddy@gmail.com","chicago",userRole,"reddy","123456",packageSet);
+
+        UserInformation obj2 = new UserInformation("rajiv reddy","Rao","04/26/1989","reddy@gmail.com","chicago",userRole,"reddy","123456",packageSet1);
         session.save(obj1);
-//        session.save(obj2);
+        session.save(obj2);
         tx.commit();
         session.close();
         return Response.status(200).entity("Updated userinformation successfully").build();
@@ -144,6 +148,27 @@ public class V1_User {
         returnString =  jsonuserarray.toString();
         return Response.status(200).entity(returnString).build();
     }
+
+//    @POST
+//    @Path("postUserInfo")
+//    @Consumes({"application/x-www-form-urlencoded"})
+//    @Produces("text/plain")
+//    public String postPackageInfo(@FormParam("userFirstName") String userfirstname,
+//                                  @FormParam("userLastName") String userlastname,
+//                                  @FormParam("userDob") String userDob,
+//                                  @FormParam("userEmail") String emailAddress,
+//                                  @FormParam("userLocation") String city,
+//                                   )
+//    {
+//        String returnData = null;
+//        ManagePackage mPack = ManagePackage.getInstance();
+//        mPack.addAddress(packagesource);
+//        mPack.addAddress(packagedestination);
+//        PackageInformation obj1 = new PackageInformation(packagetype,packageweight,packagesource,packagedestination);
+//        mPack.addPackage(obj1);
+//        return returnData;
+//    }
+//    UserInformation obj1 = new UserInformation("ashwath","narayanan","04/26/1989","ashwath26@gmail.com","chicago",userRole,"ashwath26","26061949",packageSet);
 
 
 }

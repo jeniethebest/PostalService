@@ -13,10 +13,9 @@ import edu.uic.cs.postalservice.model.UserInformation;
 import org.hibernate.Session;
 
 import org.hibernate.Query;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import org.hibernate.Transaction;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -51,15 +50,31 @@ public class V1_Package {
             PackageInformation obj = (PackageInformation) iterator.next();//cast and assign data to Person type object
 
             System.out.print("\nPrining the values:"+obj.getPackageId() + "\t" + obj.getPackageWeight() + "\n");
-//            returnData.concat(obj.getPackageId() + "\t" + obj.getPackageType() + "\t" + obj.getPackageWeight() + "\n");
         }
         session.close();
         return "Take the value";
     }
 
+//    @POST
+//    @Path("postPackageInfo")
+//    @Consumes({"application/x-www-form-urlencoded"})
+//    @Produces("text/plain")
+//    public String postPackageInfo(@FormParam("packageType") PackageType packagetype,
+//                                  @FormParam("packageWeight") double packageweight,
+//                                  @FormParam("packageSource") AddressInformation packagesource,
+//                                  @FormParam("packageDestination") AddressInformation packagedestination)
+//    {
+//        String returnData = null;
+//        ManagePackage mPack = ManagePackage.getInstance();
+//        mPack.addAddress(packagesource);
+//        mPack.addAddress(packagedestination);
+//        PackageInformation obj1 = new PackageInformation(packagetype,packageweight,packagesource,packagedestination);
+//        mPack.addPackage(obj1);
+//        return returnData;
+//    }
+
     @GET
     @Produces("text/plain")
-//    @Path("/{packageType}/{packageWeight}/{packageSource}/{packageDestination}/")
     @Path("/packagePut/")
     public String putPackage()
     {
@@ -81,7 +96,7 @@ public class V1_Package {
         queryStatement.setParameterList("Ids",addressIds);
         List result = queryStatement.list();
         Iterator ait = result.iterator();
-//
+
         while(ait.hasNext()){
             addresssArrays[increment] = (AddressInformation)ait.next();
             increment++;
@@ -111,7 +126,6 @@ public class V1_Package {
 
     @GET
     @Produces("text/plain")
-//    @Path("/{packageType}/{packageWeight}/{packageSource}/{packageDestination}/")
     @Path("/packageGet/")
     public Response packageGet(){
 

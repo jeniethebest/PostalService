@@ -23,7 +23,7 @@ use Authen::SASL;
 
 
 my $program_name = 'generate_package_report.pl';
-my $email_format ='yahoo.com';
+my $email_format ='gmail.com';
 my $generate_report_hash = {};
 
 my ($url, $json_values);
@@ -170,14 +170,15 @@ if(defined($opts{email}) )
 		foreach my $user_results( @{$generate_report_hash->{alluserpackages}->{all_user_package_count}} )
 		{
 			$total_users++;
+			$inner_row_index++;
 			$total_packages = $total_packages + $user_results->{user_package_count};
 			$all_user_package_table->addRow(
 							$user_results->{user_name},
 							$user_results->{user_email},
 							$user_results->{user_package_count},
 				);
-			$all_user_package_table->setCellBGColor($inner_row_index,3,'red') if( $user_results->{user_package_count} > 5);
-			$inner_row_index++;
+			$all_user_package_table->setCellBGColor($inner_row_index,3,'red') if( $user_results->{user_package_count} > 2);
+			
 		}
 
 		# Creating table having summarized details of all the users
