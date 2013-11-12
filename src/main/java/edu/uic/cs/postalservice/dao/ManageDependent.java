@@ -1,9 +1,8 @@
 package edu.uic.cs.postalservice.dao;
 
+import com.google.gson.annotations.SerializedName;
 import edu.uic.cs.postalservice.hibernate.HibernateUtils;
-import edu.uic.cs.postalservice.model.ContainerInformation;
-import edu.uic.cs.postalservice.model.PackageType;
-import edu.uic.cs.postalservice.model.UserRoles;
+import edu.uic.cs.postalservice.model.*;
 import org.hibernate.Session;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -113,6 +112,32 @@ public class ManageDependent {
             session.close();
         }
         return userRoles;
+    }
+
+    // getting the the status infomation object
+    public StatusInformation getStatusObj (String statusName){
+        Session session = null;
+        StatusInformation statusInformation = null;
+        try{
+
+            session = HibernateUtils.getSessionFactory().openSession();
+            String q2 = "from StatusInformation as si where si.status_type = :sType";
+            List userrole_list = session.createQuery(q2)
+                    .setString("sType", statusName).list();
+
+            Iterator pit = userrole_list.iterator();
+
+            while(pit.hasNext())
+            {
+                statusInformation =  (StatusInformation)pit.next();
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return statusInformation;
     }
 
 }

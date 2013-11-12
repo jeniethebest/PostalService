@@ -2,24 +2,19 @@ package edu.uic.cs.postalservice.rest;
 
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import edu.uic.cs.postalservice.dao.ManagePackage;
 import edu.uic.cs.postalservice.hibernate.HibernateUtils;
 import edu.uic.cs.postalservice.model.*;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONObject;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 @Path("/user")
 
@@ -100,6 +95,8 @@ public class user {
         ContainerInformation obj = new ContainerInformation("truck");
         ContainerInformation obj1 = new ContainerInformation("van");
         ContainerInformation obj2 = new ContainerInformation("tempo");
+        ContainerInformation obj3 = new ContainerInformation("cargo");
+        ContainerInformation obj4 = new ContainerInformation("mini van");
         session.save(obj);
         session.save(obj1);
         session.save(obj2);
@@ -175,6 +172,7 @@ public class user {
         StatusInformation obj2 = new StatusInformation("transit");
         StatusInformation obj3 = new StatusInformation("delayed");
         StatusInformation obj4 = new StatusInformation("delivered");
+        StatusInformation obj5 = new StatusInformation("received at store");
         session.save(obj1);
         session.save(obj2);
         session.save(obj3);

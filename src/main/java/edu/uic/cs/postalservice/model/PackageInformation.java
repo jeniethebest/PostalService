@@ -33,6 +33,12 @@ public class PackageInformation {
     @SerializedName("package_destination")
     private AddressInformation packageDestination;
 
+    @SerializedName("package_container")
+    private ContainerInformation packageContainer;
+
+    @SerializedName("package_status")
+    private StatusInformation packageStatus;
+
     public PackageInformation()
     {
 
@@ -43,6 +49,31 @@ public class PackageInformation {
         this.packageWeight = packageWeight;
         this.packageSource = packageSource;
         this.packageDestination = packageDestination;
+    }
+
+    public PackageInformation(PackageType packageType, Double packageWeight, AddressInformation packageSource, AddressInformation packageDestination, ContainerInformation packageContainer, StatusInformation packageStatus) {
+        this.packageType = packageType;
+        this.packageWeight = packageWeight;
+        this.packageSource = packageSource;
+        this.packageDestination = packageDestination;
+        this.packageContainer = packageContainer;
+        this.packageStatus = packageStatus;
+    }
+
+    public ContainerInformation getPackageContainer() {
+        return packageContainer;
+    }
+
+    public void setPackageContainer(ContainerInformation packageContainer) {
+        this.packageContainer = packageContainer;
+    }
+
+    public StatusInformation getPackageStatus() {
+        return packageStatus;
+    }
+
+    public void setPackageStatus(StatusInformation packageStatus) {
+        this.packageStatus = packageStatus;
     }
 
     public Integer getPackageId() {

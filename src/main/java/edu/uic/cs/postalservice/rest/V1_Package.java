@@ -2,18 +2,17 @@ package edu.uic.cs.postalservice.rest;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import edu.uic.cs.postalservice.dao.ManagePackage;
+import edu.uic.cs.postalservice.dao.ManageMain;
 import edu.uic.cs.postalservice.hibernate.HibernateUtils;
 import edu.uic.cs.postalservice.model.AddressInformation;
 import edu.uic.cs.postalservice.model.PackageInformation;
 import edu.uic.cs.postalservice.model.PackageType;
-import edu.uic.cs.postalservice.model.UserInformation;
+import edu.uic.cs.postalservice.dao.ManageDependent;
+
 import org.hibernate.Session;
 
 import org.hibernate.Query;
-import org.hibernate.Transaction;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -28,6 +27,8 @@ import java.util.List;
  * Time: 10:34 PM
  * To change this template use File | Settings | File Templates.
  */
+
+
 @Path("/v1/Package")
 public class V1_Package {
 
@@ -55,23 +56,6 @@ public class V1_Package {
         return "Take the value";
     }
 
-//    @POST
-//    @Path("postPackageInfo")
-//    @Consumes({"application/x-www-form-urlencoded"})
-//    @Produces("text/plain")
-//    public String postPackageInfo(@FormParam("packageType") PackageType packagetype,
-//                                  @FormParam("packageWeight") double packageweight,
-//                                  @FormParam("packageSource") AddressInformation packagesource,
-//                                  @FormParam("packageDestination") AddressInformation packagedestination)
-//    {
-//        String returnData = null;
-//        ManagePackage mPack = ManagePackage.getInstance();
-//        mPack.addAddress(packagesource);
-//        mPack.addAddress(packagedestination);
-//        PackageInformation obj1 = new PackageInformation(packagetype,packageweight,packagesource,packagedestination);
-//        mPack.addPackage(obj1);
-//        return returnData;
-//    }
 
     @GET
     @Produces("text/plain")
@@ -83,7 +67,7 @@ public class V1_Package {
         int package_type_id = 2;
 
         List<Integer> addressIds = new ArrayList<Integer>();
-        ManagePackage mPack = ManagePackage.getInstance();
+        ManageMain mPack = ManageMain.getInstance();
         addressIds.add(sourcepackage);
         addressIds.add(destinationpackage);
         int increment = 0;
@@ -112,8 +96,10 @@ public class V1_Package {
             packageType =  (PackageType)pit.next();
         }
 
-        PackageInformation obj1 = new PackageInformation(packageType,35.00,addresssArrays[0],addresssArrays[1]);
-        PackageInformation obj2 = new PackageInformation(packageType,56.00,addresssArrays[1],addresssArrays[0]);
+        ManageDependent mObj = ManageDependent.getInstance();
+
+        PackageInformation obj1 = new PackageInformation(packageType,35.00,addresssArrays[0],addresssArrays[1],mObj.getContainerObj("van"),mObj.getStatusObj("received at store"));
+        PackageInformation obj2 = new PackageInformation(packageType,56.00,addresssArrays[1],addresssArrays[0],mObj.getContainerObj("tempo"),mObj.getStatusObj("received at store"));
 
         int package_id1 = mPack.addPackage(obj1);
         int package_id2 = mPack.addPackage(obj2);
@@ -129,7 +115,7 @@ public class V1_Package {
     @Path("/packageGet/")
     public Response packageGet(){
 
-        ManagePackage mPack = ManagePackage.getInstance();
+        ManageMain mPack = ManageMain.getInstance();
         String returnString = null;
 //
 //        List  retrievedList = mPack.getPackageList();

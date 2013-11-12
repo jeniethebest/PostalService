@@ -1,10 +1,9 @@
 package edu.uic.cs.postalservice.rest;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import edu.uic.cs.postalservice.dao.ManagePackage;
+import edu.uic.cs.postalservice.dao.ManageDependent;
+import edu.uic.cs.postalservice.dao.ManageMain;
 import edu.uic.cs.postalservice.hibernate.HibernateUtils;
 import edu.uic.cs.postalservice.model.*;
 import org.hibernate.Session;
@@ -32,7 +31,8 @@ public class V1_User {
     @Path("/userInformationPut")
     public Response userInformationPut()
     {
-        ManagePackage mPack = ManagePackage.getInstance();
+        ManageMain mPack = ManageMain.getInstance();
+        ManageDependent mDep = ManageDependent.getInstance();
         List<Integer> addressIds = new ArrayList<Integer>();
         int sourcepackage = 1;
         int destinationpackage = 2;
@@ -67,9 +67,9 @@ public class V1_User {
             packageType =  (PackageType)pit.next();
         }
 
-        PackageInformation packageinfo = new PackageInformation(packageType,35.00,addresssArrays[0],addresssArrays[1]);
-        PackageInformation packageinfo1 = new PackageInformation(packageType,56.00,addresssArrays[1],addresssArrays[0]);
-        PackageInformation packageinfo2 = new PackageInformation(packageType,500.00,addresssArrays[1],addresssArrays[0]);
+        PackageInformation packageinfo = new PackageInformation(packageType,35.00,addresssArrays[0],addresssArrays[1],mDep.getContainerObj("tempo"),mDep.getStatusObj("shipped"));
+        PackageInformation packageinfo1 = new PackageInformation(packageType,56.00,addresssArrays[1],addresssArrays[0],mDep.getContainerObj("van"),mDep.getStatusObj("transit"));
+        PackageInformation packageinfo2 = new PackageInformation(packageType,500.00,addresssArrays[1],addresssArrays[0],mDep.getContainerObj("cargo"),mDep.getStatusObj("delivered"));
 
         UserRoles userRole = null;
         String query = "from UserRoles as u where u.roleType = :rType";
@@ -106,7 +106,7 @@ public class V1_User {
     @Path("/userInformationGet/")
     public Response userInformationGet(){
 
-        ManagePackage mPack = ManagePackage.getInstance();
+        ManageMain mPack = ManageMain.getInstance();
         String returnString = null;
         List<UserInformation> userlist = mPack.getUserList();
 

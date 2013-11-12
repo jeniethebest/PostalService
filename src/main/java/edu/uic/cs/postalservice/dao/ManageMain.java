@@ -1,19 +1,11 @@
 package edu.uic.cs.postalservice.dao;
 
-import com.google.gson.Gson;
-import com.sun.rmi.rmid.ExecPermission;
 import edu.uic.cs.postalservice.hibernate.HibernateUtils;
 import edu.uic.cs.postalservice.model.AddressInformation;
 import edu.uic.cs.postalservice.model.PackageInformation;
-import edu.uic.cs.postalservice.model.PackageType;
 import edu.uic.cs.postalservice.model.UserInformation;
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 import org.hibernate.*;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -23,22 +15,24 @@ import java.util.List;
  * Time: 2:24 AM
  * To change this template use File | Settings | File Templates.
  */
-public class ManagePackage {
-    public static ManagePackage instance = null;
-    protected ManagePackage(){
+public class ManageMain {
+    public static ManageMain instance = null;
+    protected ManageMain(){
         // Does not do public instantiation of objects
     }
 
-    public static ManagePackage getInstance()
+    public static ManageMain getInstance()
     {
-        synchronized (ManagePackage.class){
+        synchronized (ManageMain.class){
             if(instance == null){
-                instance = new ManagePackage();
+                instance = new ManageMain();
             }
         }
         return instance;
     }
 
+
+    // Method which is used to add the address information into the database if the string values is passed as parameter
     public AddressInformation addAddress(String street_name, String city, String state, int zipcode )
     {
         Session session = HibernateUtils.getSessionFactory().openSession();
@@ -59,6 +53,7 @@ public class ManagePackage {
         return address;
     }
 
+    // Method which is used to add the address information into the database if the object is passed as parameter
     public AddressInformation addAddress(AddressInformation objinfo)
     {
         Session session = HibernateUtils.getSessionFactory().openSession();
@@ -80,8 +75,7 @@ public class ManagePackage {
     }
 
 
-
-    /* Method to add an employee record in the database */
+    // Method which is used to add the package information into the database if the object is passed as parameter
     public Integer addPackage(PackageInformation obj){
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx = null;
@@ -99,7 +93,26 @@ public class ManagePackage {
         return packageId;
     }
 
-    /* Method to get the list of all the package information */
+    // Method which is used to add the user information into the database if the user object is passed as parameter
+    public Integer addUser(UserInformation obj){
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        Transaction tx = null;
+        Integer userId = null;
+        try{
+            tx = session.beginTransaction();
+            userId = (Integer) session.save(obj);
+            tx.commit();
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return userId;
+
+    }
+
+    // Method which is used to get the list of all the packages
     public List<PackageInformation> getPackageList( ){
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx = null;

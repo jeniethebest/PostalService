@@ -1,8 +1,7 @@
 package edu.uic.cs.postalservice.rest;
 
+import edu.uic.cs.postalservice.dao.ManageMain;
 import edu.uic.cs.postalservice.dao.ManageDependent;
-import edu.uic.cs.postalservice.dao.ManagePackage;
-import edu.uic.cs.postalservice.model.PackageInformation;
 import edu.uic.cs.postalservice.model.UserInformation;
 import edu.uic.cs.postalservice.model.UserRoles;
 
@@ -19,11 +18,14 @@ import javax.ws.rs.core.MediaType;
 
 @Path("v1/UserPost")
 public class V1_UserPost {
-    ManagePackage mPack = ManagePackage.getInstance();
+    ManageMain mPack = ManageMain.getInstance();
     ManageDependent mDep = ManageDependent.getInstance();
 
+
+    // Post method which is used to post the user information and save in the database
+
     @POST
-    @Path("postUserInfo")
+    @Path("createUser")
     @Consumes({"application/x-www-form-urlencoded"})
     @Produces(MediaType.TEXT_PLAIN)
     public String postPackageInfo(@FormParam("userFirstName") String userfirstname,
@@ -32,14 +34,16 @@ public class V1_UserPost {
                                   @FormParam("userEmail") String emailAddress,
                                   @FormParam("userLocation") String city,
                                   @FormParam("userRole") String rolename,
+                                  @FormParam("userLogin") String userLogin,
+                                  @FormParam("userPassword") String userPassword
                                   )
     {
         String returnData = null;
         UserRoles userRoles = mDep.getRoleObj(rolename);
-
-        UserInformation obj1 = new UserInformation(userfirstname,userlastname,userDob,emailAddress,city,userRoles,"ashwath26","26061949",packageSet);
+        UserInformation obj1 = new UserInformation(userfirstname,userlastname,userDob,emailAddress,city,userRoles,userLogin,userPassword,null);
 
         return returnData;
     }
 
-}
+
+    }
