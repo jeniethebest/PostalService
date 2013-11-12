@@ -149,25 +149,6 @@ public class V1_User {
         return Response.status(200).entity(returnString).build();
     }
 
-//    @POST
-//    @Path("postUserInfo")
-//    @Consumes({"application/x-www-form-urlencoded"})
-//    @Produces("text/plain")
-//    public String postPackageInfo(@FormParam("userFirstName") String userfirstname,
-//                                  @FormParam("userLastName") String userlastname,
-//                                  @FormParam("userDob") String userDob,
-//                                  @FormParam("userEmail") String emailAddress,
-//                                  @FormParam("userLocation") String city,
-//                                   )
-//    {
-//        String returnData = null;
-//        ManagePackage mPack = ManagePackage.getInstance();
-//        mPack.addAddress(packagesource);
-//        mPack.addAddress(packagedestination);
-//        PackageInformation obj1 = new PackageInformation(packagetype,packageweight,packagesource,packagedestination);
-//        mPack.addPackage(obj1);
-//        return returnData;
-//    }
 //    UserInformation obj1 = new UserInformation("ashwath","narayanan","04/26/1989","ashwath26@gmail.com","chicago",userRole,"ashwath26","26061949",packageSet);
 
 
