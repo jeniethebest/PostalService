@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="edu.uic.cs.postalservice.model.StatusInformation" table="STATUS_INFORMATION1">
+    <class name="edu.uic.cs.postalservice.model.StatusInformation" table="STATUS_INFORMATION1" lazy="false">
         <id name="status_id" column="STATUS_ID">
             <generator class="native"/>
         </id>

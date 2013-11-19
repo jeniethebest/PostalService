@@ -120,7 +120,9 @@ public class ManageMain {
         try{
             tx = session.beginTransaction();
             packagelist = session.createQuery("FROM PackageInformation").list();
-            System.out.println(packagelist.toString());
+            for(PackageInformation packageinfo:packagelist){
+                Hibernate.initialize(packageinfo);
+            }
             tx.commit();
         }catch (Exception e) {
             if (tx!=null) tx.rollback();
@@ -141,12 +143,6 @@ public class ManageMain {
             for(UserInformation userinfo : userlist){
                 Hibernate.initialize(userinfo.getPackageInformation());
             }
-//            for(Iterator ite = userlist.iterator(); ite.hasNext();){
-//                UserInformation tempobj = (UserInformation) ite.next();
-//                System.out.println("The id value is"+tempobj.getUserId());
-//                List<PackageInformation> packdetails = tempobj.getPackageInformation();
-//                System.out.println("The number of packages are:"+packdetails.size());
-//            }
             System.out.println(userlist.toString());
             tx.commit();
         }catch (Exception e){

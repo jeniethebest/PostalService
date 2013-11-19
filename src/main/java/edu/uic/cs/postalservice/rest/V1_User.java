@@ -46,6 +46,7 @@ public class V1_User {
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
 
+        // Getting the address information object.
         String q1 = "from AddressInformation as p where p.address_id in (:Ids)";
         Query queryStatement = session.createQuery(q1);
         queryStatement.setParameterList("Ids",addressIds);
@@ -57,6 +58,7 @@ public class V1_User {
             increment++;
         }
 
+        // Getting the package type object.
         String q2 = "from PackageType as pt where pt.package_type_id = :pId";
         List packagetype_list = session.createQuery(q2)
                 .setInteger("pId", package_type_id).list();
@@ -67,23 +69,19 @@ public class V1_User {
             packageType =  (PackageType)pit.next();
         }
 
-        PackageInformation packageinfo = new PackageInformation(packageType,35.00,addresssArrays[0],addresssArrays[1],mDep.getContainerObj("tempo"),mDep.getStatusObj("shipped"));
-        PackageInformation packageinfo1 = new PackageInformation(packageType,56.00,addresssArrays[1],addresssArrays[0],mDep.getContainerObj("van"),mDep.getStatusObj("transit"));
-        PackageInformation packageinfo2 = new PackageInformation(packageType,500.00,addresssArrays[1],addresssArrays[0],mDep.getContainerObj("cargo"),mDep.getStatusObj("delivered"));
+        PackageInformation packageinfo = new PackageInformation(packageType,35.00,addresssArrays[0],addresssArrays[1],"tempo","shipped");
+        PackageInformation packageinfo1 = new PackageInformation(packageType,56.00,addresssArrays[1],addresssArrays[0],"van","transit");
+        PackageInformation packageinfo2 = new PackageInformation(packageType,500.00,addresssArrays[1],addresssArrays[0],"cargo","delivered");
 
         UserRoles userRole = null;
         String query = "from UserRoles as u where u.roleType = :rType";
-        List<UserRoles> list = session.createQuery(query).setString("rType","admin").list();
+        List<UserRoles> list = session.createQuery(query).setString("rType","user").list();
         Iterator it = list.iterator();
         while(it.hasNext())
         {
             userRole = (UserRoles)it.next();
 
         }
-
-//        ArrayList<PackageInformation> packagelist = new ArrayList<PackageInformation>();
-
-        // Defining the set of certificates which needs to be persisted in the database
         HashSet packageSet = new HashSet();
         packageSet.add(packageinfo);
         packageSet.add(packageinfo1);
@@ -91,11 +89,14 @@ public class V1_User {
         HashSet packageSet1 = new HashSet();
         packageSet1.add(packageinfo2);
 
-        UserInformation obj1 = new UserInformation("ashwath","narayanan","04/26/1989","ashwath26@gmail.com","chicago",userRole,"ashwath26","26061949",packageSet);
+        for(int i=0;i<25;i++)
+        {
+            UserInformation obj1 = new UserInformation("user1testFirstName"+i,"user1testLastName"+i,"04/26/1989","user1testEmail"+i+"@gmail.com","user1TestCity",userRole,"user1Login","user1Password",packageSet);
+            UserInformation obj2 = new UserInformation("user2testFirseName"+1,"user2testLastName"+i,"04/26/1989","user2testEmail"+i+"@gmail.com","user2TestCity",userRole,"user2Login","user2Password",packageSet1);
+            session.save(obj1);
+            session.save(obj2);
+        }
 
-        UserInformation obj2 = new UserInformation("rajiv reddy","Rao","04/26/1989","reddy@gmail.com","chicago",userRole,"reddy","123456",packageSet1);
-        session.save(obj1);
-        session.save(obj2);
         tx.commit();
         session.close();
         return Response.status(200).entity("Updated userinformation successfully").build();
@@ -121,7 +122,6 @@ public class V1_User {
             jsonObj.addProperty("user_location",userinfo.getLocation());
             jsonObj.add("user_role_information",userinfo.getRoleinformation().toJson());
 
-//            HashSet<PackageInformation> packagelist = userinfo.getPackageInformation();
             Set<PackageInformation> packageset = userinfo.getPackageInformation();
             System.out.println(packageset.size());
             JsonArray json = new JsonArray();
@@ -131,25 +131,24 @@ public class V1_User {
                 jsonObj1.addProperty("package_weight",pack.getPackageWeight());
 
                 AddressInformation sourceAddress = pack.getPackageSource();
-                jsonObj1.add("sourceAddress",sourceAddress.toJson());
+                jsonObj1.add("source_address",sourceAddress.toJson());
 
                 AddressInformation destinationAddress = pack.getPackageDestination();
-                jsonObj1.add("destinationAddress",destinationAddress.toJson());
+                jsonObj1.add("destination_address",destinationAddress.toJson());
 
                 PackageType packageType = pack.getPackageType();
                 jsonObj1.add("package_type",packageType.toJson());
 
+                jsonObj1.addProperty("container_info",pack.getPackageContainer());
+
+                jsonObj1.addProperty("status_info",pack.getPackageStatus());
+
                 json.add(jsonObj1);
             }
             jsonObj.add("user_packages",json);
-
             jsonuserarray.add(jsonObj);
         }
         returnString =  jsonuserarray.toString();
         return Response.status(200).entity(returnString).build();
     }
-
-//    UserInformation obj1 = new UserInformation("ashwath","narayanan","04/26/1989","ashwath26@gmail.com","chicago",userRole,"ashwath26","26061949",packageSet);
-
-
 }

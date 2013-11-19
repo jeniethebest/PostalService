@@ -80,7 +80,6 @@ public class AddressInformation {
 
     public JsonElement toJson(){
         JsonObject jso = new JsonObject();
-        jso.addProperty("address_id",address_id);
         jso.addProperty("street_name",street_name);
         jso.addProperty("city",city);
         jso.addProperty("state",state);

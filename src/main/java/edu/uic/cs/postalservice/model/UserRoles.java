@@ -45,7 +45,6 @@ public class UserRoles {
 
     public JsonElement toJson(){
         JsonObject jso = new JsonObject();
-        jso.addProperty("role_id",roleId);
         jso.addProperty("role_type",roleType);
         return jso;
     }

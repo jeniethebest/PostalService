@@ -16,7 +16,11 @@
         <property name="packageWeight" column="PACKAGE_WEIGHT" />
         <many-to-one name="packageSource" column="PACKAGE_SOURCE_ID"  class="edu.uic.cs.postalservice.model.AddressInformation" not-null="true"/>
         <many-to-one name="packageDestination" column="PACKAGE_DESTINATION_ID"  class="edu.uic.cs.postalservice.model.AddressInformation" not-null="true"/>
+        <property name="packageContainer" column="PACKAGE_CONTAINER"/>
+        <property name="packageStatus" column="PACKAGE_STATUS"/>
 
+        <!--<many-to-one name="packageContainer" column="PACKAGE_CONTAINER_ID" class="edu.uic.cs.postalservice.model.ContainerInformation" not-null="true"/>-->
+        <!--<many-to-one name="packageStatus" column="PACKAGE_STATUS_ID" class="edu.uic.cs.postalservice.model.StatusInformation" not-null="true"/>-->
     </class>
 
 </hibernate-mapping>

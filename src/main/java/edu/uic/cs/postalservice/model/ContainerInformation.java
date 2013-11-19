@@ -48,7 +48,6 @@ public class ContainerInformation {
     public JsonElement toJson()
     {
         JsonObject jso = new JsonObject();
-        jso.addProperty("container_id",containerId);
         jso.addProperty("container_name",containerName);
         return jso;
     }

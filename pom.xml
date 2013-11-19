@@ -143,11 +143,11 @@
             <version>1.9.13</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>9.1.0.M0</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.eclipse.jetty</groupId>-->
+            <!--<artifactId>jetty-server</artifactId>-->
+            <!--<version>9.1.0.M0</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -156,18 +156,18 @@
 
     </dependencies>
 
-    <build>
-        <finalName>PostalService</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.mortbay.jetty</groupId>
-                <artifactId>maven-jetty-plugin</artifactId>
-                <version>6.1.10</version>
-                <configuration>
-                    <stopPort>9966</stopPort>
-                    <stopKey>foo</stopKey>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <!--<build>-->
+        <!--<finalName>PostalService</finalName>-->
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.mortbay.jetty</groupId>-->
+                <!--<artifactId>maven-jetty-plugin</artifactId>-->
+                <!--<version>6.1.10</version>-->
+                <!--<configuration>-->
+                    <!--<stopPort>9966</stopPort>-->
+                    <!--<stopKey>foo</stopKey>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
+    <!--</build>-->
 </project>

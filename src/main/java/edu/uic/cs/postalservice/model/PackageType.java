@@ -50,7 +50,6 @@ public class PackageType {
 
     public JsonElement toJson(){
         JsonObject jso = new JsonObject();
-        jso.addProperty("package_type_id",package_type_id);
         jso.addProperty("package_name",package_name);
         return jso;
     }

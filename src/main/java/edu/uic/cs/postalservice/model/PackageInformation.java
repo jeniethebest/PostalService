@@ -34,10 +34,10 @@ public class PackageInformation {
     private AddressInformation packageDestination;
 
     @SerializedName("package_container")
-    private ContainerInformation packageContainer;
+    private String packageContainer;
 
     @SerializedName("package_status")
-    private StatusInformation packageStatus;
+    private String packageStatus;
 
     public PackageInformation()
     {
@@ -51,7 +51,7 @@ public class PackageInformation {
         this.packageDestination = packageDestination;
     }
 
-    public PackageInformation(PackageType packageType, Double packageWeight, AddressInformation packageSource, AddressInformation packageDestination, ContainerInformation packageContainer, StatusInformation packageStatus) {
+    public PackageInformation(PackageType packageType, Double packageWeight, AddressInformation packageSource, AddressInformation packageDestination, String packageContainer, String packageStatus) {
         this.packageType = packageType;
         this.packageWeight = packageWeight;
         this.packageSource = packageSource;
@@ -60,19 +60,19 @@ public class PackageInformation {
         this.packageStatus = packageStatus;
     }
 
-    public ContainerInformation getPackageContainer() {
+    public String getPackageContainer() {
         return packageContainer;
     }
 
-    public void setPackageContainer(ContainerInformation packageContainer) {
+    public void setPackageContainer(String packageContainer) {
         this.packageContainer = packageContainer;
     }
 
-    public StatusInformation getPackageStatus() {
+    public String getPackageStatus() {
         return packageStatus;
     }
 
-    public void setPackageStatus(StatusInformation packageStatus) {
+    public void setPackageStatus(String packageStatus) {
         this.packageStatus = packageStatus;
     }
 

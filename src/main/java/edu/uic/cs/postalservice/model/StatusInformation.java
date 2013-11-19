@@ -43,7 +43,6 @@ public class StatusInformation {
     public JsonElement toJson()
     {
         JsonObject jso = new JsonObject();
-        jso.addProperty("status_id",status_id);
         jso.addProperty("status_type",status_type);
         return jso;
     }

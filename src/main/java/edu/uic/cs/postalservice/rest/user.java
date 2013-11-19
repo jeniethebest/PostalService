@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
 import java.util.Iterator;
 import java.util.List;
 
-@Path("/user")
+@Path("/v1/Dependency")
 
 public class user {
 
@@ -26,11 +26,10 @@ public class user {
     public String getMsg(@PathParam("firstName") String firstname)
     {
 
-        String output = "Jersey say : " + firstname;
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx =  session.beginTransaction();
 
-        AddressInformation obj = new AddressInformation("ashwath","salem","tamilnadu",6360079);
+        AddressInformation obj = new AddressInformation("test","test","test",12345);
         System.out.println(obj.getZipcode());
         session.save(obj);
         tx.commit();
@@ -96,7 +95,7 @@ public class user {
         ContainerInformation obj1 = new ContainerInformation("van");
         ContainerInformation obj2 = new ContainerInformation("tempo");
         ContainerInformation obj3 = new ContainerInformation("cargo");
-        ContainerInformation obj4 = new ContainerInformation("mini van");
+        ContainerInformation obj4 = new ContainerInformation("");
         session.save(obj);
         session.save(obj1);
         session.save(obj2);
