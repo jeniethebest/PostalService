@@ -61,7 +61,6 @@ public class V1_DependentPost {
     {
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx = null;
-        int result = 0;
         try{
             tx = session.beginTransaction();
             StatusInformation obj = new StatusInformation(statusName);

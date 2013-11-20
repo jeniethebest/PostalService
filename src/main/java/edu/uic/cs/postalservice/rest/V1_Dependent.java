@@ -18,7 +18,7 @@ import java.util.List;
 
 @Path("/v1/Dependency")
 
-public class user {
+public class V1_Dependent {
 
     @GET
     @Produces("text/plain")

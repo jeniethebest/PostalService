@@ -132,7 +132,4 @@ public class V1_UserPost {
             return "Update Failure";
         }
     }
-
-    // Post method to update the information of the number of packages for an already existing user
-
 }
