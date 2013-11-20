@@ -47,7 +47,7 @@ public class user {
         userRolesPut();
         statusInformationPut();
         addressInformationPut();
-        return Response.status(200).entity("\nReturning after executing /packagetypePut and /containerPut and userRolesPut").build();
+        return Response.status(200).entity("\nReturning after executing packagetypePut, containerPut, userRolesPut, statusInformation, addressInformation").build();
     }
 
     @GET
@@ -56,12 +56,10 @@ public class user {
     public String addressInformationPut()
     {
 
-//        String output = "Jersey say : " + firstname;
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx =  session.beginTransaction();
-
-        AddressInformation obj = new AddressInformation("1514 W Taylor Street","Chicago","Illinois",60607);
-        AddressInformation obj1 = new AddressInformation("1063 Morse Avenue","Sunnyvale","California",94089);
+        AddressInformation obj = new AddressInformation("testStreet","testCity","testState",12345);
+        AddressInformation obj1 = new AddressInformation("testStreet1","testCity1","testState1",12345);
         System.out.println(obj.getZipcode());
         session.save(obj);
         session.save(obj1);

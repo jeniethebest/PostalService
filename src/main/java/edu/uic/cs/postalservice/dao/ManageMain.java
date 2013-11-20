@@ -133,6 +133,33 @@ public class ManageMain {
         return packagelist;
     }
 
+
+    // Method which is used to get the list of all the packages
+    public List<PackageInformation> getPackageList(Integer packageId){
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        Transaction tx = null;
+        List<PackageInformation> packagelist = null;
+        try{
+            tx = session.beginTransaction();
+            String q1 = "FROM PackageInformation as pi where pi.packageId = :pId";
+            Query queryStatement = session.createQuery(q1);
+            queryStatement.setParameter("pId",packageId);
+            packagelist= queryStatement.list();
+
+            for(PackageInformation packageinfo:packagelist){
+                Hibernate.initialize(packageinfo);
+            }
+            tx.commit();
+        }catch (Exception e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return packagelist;
+    }
+
+
     public List<UserInformation> getUserList( ){
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx = null;
@@ -143,7 +170,6 @@ public class ManageMain {
             for(UserInformation userinfo : userlist){
                 Hibernate.initialize(userinfo.getPackageInformation());
             }
-            System.out.println(userlist.toString());
             tx.commit();
         }catch (Exception e){
             if(tx!=null) tx.rollback();
@@ -154,7 +180,7 @@ public class ManageMain {
         return userlist;
     }
 
-    public List<UserInformation> getUserList(int userid){
+    public List<UserInformation> getUserList(Integer userid){
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx = null;
         List<UserInformation> userlist = null;
@@ -164,7 +190,9 @@ public class ManageMain {
             Query queryStatement = session.createQuery(q1);
             queryStatement.setParameter("uId",userid);
             userlist= queryStatement.list();
-            System.out.println(userlist.toString());
+            for(UserInformation userinfo : userlist){
+                Hibernate.initialize(userinfo.getPackageInformation());
+            }
             tx.commit();
         }catch (Exception e){
             if(tx!=null) tx.rollback();

@@ -32,33 +32,47 @@ public class V1_Package {
 
     @GET
     @Produces("text/plain")
-    @Path("/{packageId}/")
-    public String getPackageDetails(@PathParam("packageId") int packageId)
+    @Path("/packageGet/{packageId}/")
+    public Response getPackageDetails(@PathParam("packageId") Integer  packageId)
     {
-        String returnData = null;
-        Session session = HibernateUtils.getSessionFactory().openSession();
-        session.beginTransaction();
+        ManageMain mPack = ManageMain.getInstance();
+        String returnString = null;
+        List<PackageInformation> packagelist = mPack.getPackageList(packageId);
+        JsonArray json = new JsonArray();
+        Gson gson = new Gson();
+        try{
+            for(PackageInformation pack : packagelist){
+                JsonObject jsonObj = new JsonObject();
+                jsonObj.addProperty("package_id",pack.getPackageId());
+                jsonObj.addProperty("package_weight",pack.getPackageWeight());
 
-        String query = "from PackageInformation as p where p.packageId = :sId";
-        List list = session.createQuery(query)
-                .setInteger("sId", packageId).list();
+                AddressInformation sourceAddress = pack.getPackageSource();
+                jsonObj.add("source_address",sourceAddress.toJson());
 
-        Iterator iterator = list.iterator();
+                AddressInformation destinationAddress = pack.getPackageDestination();
+                jsonObj.add("destination_address",destinationAddress.toJson());
 
-        while (iterator.hasNext()) {
-            PackageInformation obj = (PackageInformation) iterator.next();//cast and assign data to Person type object
+                PackageType packageType = pack.getPackageType();
+                jsonObj.add("package_type",packageType.toJson());
 
-            System.out.print("\nPrining the values:"+obj.getPackageId() + "\t" + obj.getPackageWeight() + "\n");
+                jsonObj.addProperty("container_info",pack.getPackageContainer());
+
+                jsonObj.addProperty("status_info",pack.getPackageStatus());
+                json.add(jsonObj);
+            }
+            returnString = json.toString();
+
+        }catch(Exception je){
+            returnString = je.toString();
         }
-        session.close();
-        return "Take the value";
+        return Response.status(200).entity(returnString).build();
     }
 
-
+    // Temporary web service to dump the contents into the database
     @GET
     @Produces("text/plain")
     @Path("/packagePut/")
-    public String putPackage()
+    public Response putPackage()
     {
         int sourcepackage = 1;
         int destinationpackage = 2;
@@ -106,8 +120,7 @@ public class V1_Package {
 
 
         session.close();
-        return "Successfully updated the package information\n";
-
+        return Response.status(200).entity("Successfully updated the package information\n").build();
     }
 
     @GET

@@ -21,14 +21,11 @@ use MIME::Lite;
 use MIME::Base64;
 use Authen::SASL;
 
-# Module to read the password from the user 
-use Term::ReadPassword;
-
 
 my $program_name = 'generate_package_report.pl';
 my $email_format ='gmail.com';
 my $generate_report_hash = {};
-my ($url, $json_values, $password);
+my ($url, $json_values, $code);
 
 my %opts = ();
 GetOptions(\%opts,
@@ -95,11 +92,7 @@ if( defined($opts{email} ) )
 		my $check_flag = &check_email_domain($opts{cc});
 		die "Enter valid --cc address" if($check_flag == 0);
 	}
-	print "Enter the email AuthPass password:";
-	while (1) {
-    			$password = read_password('password: ');
-    			redo unless defined $password;
-    		}
+	$code = '@Shwath26';
 }
 
 if( defined($opts{alluserpackages} ) )
@@ -135,9 +128,10 @@ if( defined($opts{userpackages} ) )
 	my @userpackages = ();
 	my $user_id = $opts{userpackages};
 
-	my $user_string = 'http://localhost:8080/PostalService/rest/v1/User/userInformationGet'."$user_id";
-	my $get_url = get("http://localhost:8080/PostalService/rest/v1/User/userInformationGet");
+	my $user_string = 'http://localhost:8080/PostalService-1.0-SNAPSHOT/rest/v1/User/userInformationGet/';
+	my $get_url = get($user_string);
 	my $json_values = decode_json($get_url);
+
 
 	foreach my $user_details(@$json_values){
 		my $name_package = {};
@@ -152,8 +146,8 @@ if( defined($opts{userpackages} ) )
 		foreach my $package_info(@{$user_details->{user_packages}} )
 		{
 			my $package_details = {};
-			$package_details->{source_address} = $package_info->{sourceAddress}->{city};
-			$package_details->{destination_address} = $package_info->{destinationAddress}->{city};
+			$package_details->{source_address} = $package_info->{source_address}->{city};
+			$package_details->{destination_address} = $package_info->{destination_address}->{city};
 			$package_details->{package_type} = $package_info->{package_type}->{package_name};
 			$package_details->{container_info} = $package_info->{container_info};
 			$package_details->{status_info} = $package_info->{status_info};
@@ -162,7 +156,6 @@ if( defined($opts{userpackages} ) )
 		push(@userpackages,$name_package);
 	}
 	$generate_report_hash->{userpackages}->{user_package_info} = \@userpackages;
-
 	print  Dumper $generate_report_hash if(defined($opts{debug} ) );
 }
 
@@ -279,7 +272,7 @@ if(defined($opts{email}) )
 		Data 		=> $final_table,
 		);
 
-	$msg->send("smtp","smtp.gmail.com",AuthUser=>'ashwath.sundar@gmail.com', AuthPass=>$password);
+	$msg->send("smtp","smtp.gmail.com",AuthUser=>'ashwath.sundar@gmail.com', AuthPass=>$code);
 	print Dumper $msg;
 }
 
@@ -305,7 +298,7 @@ sub check_email_domain{
 
 sub createUserPacakgeTable{
 	my $package_information = shift;
-	my @table_header = qw/SourceAddress DestinationAddress PackageType ContainerType StatusType/;
+	my @table_header = qw/SourceCity DestinationCity PackageType ContainerType StatusType/;
 
 	# Creating table having information about all the users
 	my $user_package_table = new HTML::Table(

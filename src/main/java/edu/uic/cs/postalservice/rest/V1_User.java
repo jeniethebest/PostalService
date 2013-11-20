@@ -92,8 +92,8 @@ public class V1_User {
 
         for(int i=0;i<25;i++)
         {
-            UserInformation obj1 = new UserInformation("user1testFirstName"+i,"user1testLastName"+i,"04/26/1989","user1testEmail"+i+"@gmail.com","user1TestCity",userRole,"user1Login","user1Password",packageSet);
-            UserInformation obj2 = new UserInformation("user2testFirseName"+1,"user2testLastName"+i,"04/26/1989","user2testEmail"+i+"@gmail.com","user2TestCity",userRole,"user2Login","user2Password",packageSet1);
+            UserInformation obj1 = new UserInformation("user1testFirstName"+i+1,"user1testLastName"+i+1,"04/26/1989","user1testEmail"+i+1+"@gmail.com","user1TestCity",userRole,"user"+i+1+"Login","user"+i+1+"Password",packageSet);
+            UserInformation obj2 = new UserInformation("user2testFirseName"+1+1,"user2testLastName"+i+1,"04/26/1989","user2testEmail"+i+1+"@gmail.com","user2TestCity",userRole,"user"+i+1+"Login","user"+i+1+"Password",packageSet1);
             session.save(obj1);
             session.save(obj2);
         }
@@ -101,6 +101,56 @@ public class V1_User {
         tx.commit();
         session.close();
         return Response.status(200).entity("Updated userinformation successfully").build();
+    }
+
+    @GET
+    @Produces("text/plain")
+    @Path("/userInformationGet/{userid}")
+    public Response userInformationGetById(@PathParam("userid") Integer userid){
+
+        ManageMain mPack = ManageMain.getInstance();
+        String returnString = null;
+        List<UserInformation> userlist = mPack.getUserList(userid);
+
+        JsonArray jsonuserarray = new JsonArray();
+        for(UserInformation userinfo : userlist){
+            JsonObject jsonObj = new JsonObject();
+            jsonObj.addProperty("user_id",userinfo.getUserId());
+            jsonObj.addProperty("user_first_name",userinfo.getFirstName());
+            jsonObj.addProperty("user_last_name",userinfo.getLastName());
+            jsonObj.addProperty("user_email",userinfo.getEmail());
+            jsonObj.addProperty("user_dob",userinfo.getDob());
+            jsonObj.addProperty("user_location",userinfo.getLocation());
+            jsonObj.add("user_role_information",userinfo.getRoleinformation().toJson());
+
+            Set<PackageInformation> packageset = userinfo.getPackageInformation();
+            System.out.println(packageset.size());
+            JsonArray json = new JsonArray();
+            for(PackageInformation pack : packageset){
+                JsonObject jsonObj1 = new JsonObject();
+                jsonObj1.addProperty("package_id",pack.getPackageId());
+                jsonObj1.addProperty("package_weight",pack.getPackageWeight());
+
+                AddressInformation sourceAddress = pack.getPackageSource();
+                jsonObj1.add("source_address",sourceAddress.toJson());
+
+                AddressInformation destinationAddress = pack.getPackageDestination();
+                jsonObj1.add("destination_address",destinationAddress.toJson());
+
+                PackageType packageType = pack.getPackageType();
+                jsonObj1.add("package_type",packageType.toJson());
+
+                jsonObj1.addProperty("container_info",pack.getPackageContainer());
+
+                jsonObj1.addProperty("status_info",pack.getPackageStatus());
+
+                json.add(jsonObj1);
+            }
+            jsonObj.add("user_packages",json);
+            jsonuserarray.add(jsonObj);
+        }
+        returnString =  jsonuserarray.toString();
+        return Response.status(200).entity(returnString).build();
     }
 
     @GET
@@ -152,4 +202,7 @@ public class V1_User {
         returnString =  jsonuserarray.toString();
         return Response.status(200).entity(returnString).build();
     }
+
+
+
 }

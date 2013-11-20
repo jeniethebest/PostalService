@@ -13,29 +13,29 @@ import javax.ws.rs.core.MediaType;
  * To change this template use File | Settings | File Templates.
  */
 @Path("/hello")
-public class Hello {
+public class Testing_Class {
 
 
     // This method is called if XML is request
     @GET
     @Produces(MediaType.TEXT_XML)
     public String sayXMLHello() {
-        return "<?xml version=\"1.0\"?>" + "<hello> Hello Jersey" + "</hello>";
+        return "<?xml version=\"1.0\"?>" + "<hello> Testing_Class Jersey" + "</hello>";
     }
 
     // This method is called if HTML is request
     @GET
     @Produces(MediaType.TEXT_HTML)
     public String sayHtmlHello() {
-        return "<html> " + "<title>" + "Hello Jersey" + "</title>"
-                + "<body><h1>" + "Hello Jersey" + "</body></h1>" + "</html> ";
+        return "<html> " + "<title>" + "Testing_Class Jersey" + "</title>"
+                + "<body><h1>" + "Testing_Class Jersey" + "</body></h1>" + "</html> ";
     }
 
     // This method is called if TEXT_PLAIN is request
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String sayPlainTextHello() {
-        return "Hello Jersey";
+        return "Testing_Class Jersey";
     }
 
 }
