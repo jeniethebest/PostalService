@@ -21,12 +21,14 @@ use MIME::Lite;
 use MIME::Base64;
 use Authen::SASL;
 
+# Module to read the password from the user 
+use Term::ReadPassword;
+
 
 my $program_name = 'generate_package_report.pl';
 my $email_format ='gmail.com';
 my $generate_report_hash = {};
-
-my ($url, $json_values);
+my ($url, $json_values, $password);
 
 my %opts = ();
 GetOptions(\%opts,
@@ -54,11 +56,22 @@ printf('
 		Report the detailed list of all users packages:
 		--alluserpackages
 		
-		Reports the deailed list of all the packages for a particular user:
+		Reports the detailed list of all the packages for a particular user:
 		--userpackages	# Specify the id of the user to retrieve the list of user packages
 		
+		Report based on the status of the package
+		--status 		# Specify the status of the package //Used along with alluserpackages
+
 		Report the details list of user packages based on their id:
 		--userinfo		# Provide the id of the user to generate the report
+
+		Email the generated report:
+		--email 			# Option set to send the generated report
+		--to  			# Specify the email address of the receiver
+		--from 		  	# Specify the email address of the sender
+
+		--debug 		# Set this option to show the debug information for the process
+
 ');
 	exit;
 }
@@ -82,14 +95,21 @@ if( defined($opts{email} ) )
 		my $check_flag = &check_email_domain($opts{cc});
 		die "Enter valid --cc address" if($check_flag == 0);
 	}
+	print "Enter the email AuthPass password:";
+	while (1) {
+    			$password = read_password('password: ');
+    			redo unless defined $password;
+    		}
 }
 
 if( defined($opts{alluserpackages} ) )
 {
+	print "Executing the alluserpackages module\n";
 	my @alluserpackages = ();
 	$generate_report_hash->{alluserpackages}->{all_user_package_count} = \@alluserpackages;
 
-	my $get_url = get("http://localhost:8080/PostalService/rest/v1/User/userInformationGet");
+	my $get_url = get("http://localhost:8080/PostalService-1.0-SNAPSHOT/rest/v1/User/userInformationGet");
+
 	my $json_values = decode_json($get_url);
 
 	# This below value will save the total number of users.
@@ -97,18 +117,21 @@ if( defined($opts{alluserpackages} ) )
 
 	foreach my $user_details(@$json_values){
 		my $name_packagecount = {};
-		$name_packagecount->{user_name} =  $user_details->{user_first_name};
+		$name_packagecount->{user_first_name} =  $user_details->{user_first_name};
+		$name_packagecount->{user_last_name} = $user_details->{user_last_name};
 		$name_packagecount->{user_email} =  $user_details->{user_email};
 		$name_packagecount->{user_package_count} = scalar @{$user_details->{user_packages}};
 		push(@alluserpackages,$name_packagecount);
 	}
 
-	print  Dumper $generate_report_hash;
+	print  Dumper $generate_report_hash if(defined($opts{debug} ) );
 	# $generate_report_hash->{alluserpackages} 
 }
 
 if( defined($opts{userpackages} ) )
 {
+	print "Executing the userpackages module\n";
+
 	my @userpackages = ();
 	my $user_id = $opts{userpackages};
 
@@ -121,7 +144,8 @@ if( defined($opts{userpackages} ) )
 		my @each_user_package;
 		$name_package->{user_packages} = \@each_user_package;
 
-		$name_package->{user_name} =  $user_details->{user_first_name};
+		$name_package->{user_first_name} =  $user_details->{user_first_name};
+		$name_package->{user_last_name} = $user_details->{user_last_name};
 		$name_package->{user_email} =  $user_details->{user_email};
 		$name_package->{user_package_count} = scalar @{$user_details->{user_packages}};
 
@@ -130,14 +154,16 @@ if( defined($opts{userpackages} ) )
 			my $package_details = {};
 			$package_details->{source_address} = $package_info->{sourceAddress}->{city};
 			$package_details->{destination_address} = $package_info->{destinationAddress}->{city};
-			$package_details->{container_type} = $package_info->{package_type}->{package_name};
-			push(@each_user_package,$package_details);
+			$package_details->{package_type} = $package_info->{package_type}->{package_name};
+			$package_details->{container_info} = $package_info->{container_info};
+			$package_details->{status_info} = $package_info->{status_info};
+ 			push(@each_user_package,$package_details);
 		}
 		push(@userpackages,$name_package);
 	}
 	$generate_report_hash->{userpackages}->{user_package_info} = \@userpackages;
 
-	print  Dumper $generate_report_hash;
+	print  Dumper $generate_report_hash if(defined($opts{debug} ) );
 }
 
 if(defined($opts{email}) )
@@ -153,7 +179,7 @@ if(defined($opts{email}) )
 		my $inner_row_index = 1;
 		my $total_users = 0;
 		my $total_packages = 0;
-		my @table_header = qw/User-Name User-Email User-Package-Count/;
+		my @table_header = qw/FirstName LastName Email PackageCount/;
 
 		# Creating table having information about all the users
 		my $all_user_package_table = new HTML::Table(
@@ -170,14 +196,14 @@ if(defined($opts{email}) )
 		foreach my $user_results( @{$generate_report_hash->{alluserpackages}->{all_user_package_count}} )
 		{
 			$total_users++;
-			$inner_row_index++;
-			$total_packages = $total_packages + $user_results->{user_package_count};
+			$inner_row_index++;			
 			$all_user_package_table->addRow(
-							$user_results->{user_name},
+							$user_results->{user_first_name},
+							$user_results->{user_last_name},
 							$user_results->{user_email},
 							$user_results->{user_package_count},
 				);
-			$all_user_package_table->setCellBGColor($inner_row_index,3,'red') if( $user_results->{user_package_count} > 2);
+			$all_user_package_table->setCellBGColor($inner_row_index,4,'red') if( $user_results->{user_package_count} > 2);
 			
 		}
 
@@ -202,7 +228,39 @@ if(defined($opts{email}) )
 
 	if(defined($opts{userpackages} ) )
 	{
+		my $inner_row_index = 1;
+		my $total_users = 0;
+		my $total_packages = 0;
+		my @table_header = qw/FirstName LastName Email PackageCount PackageInformation/;
 
+		# Creating table having information about all the users
+		my $all_user_package_table = new HTML::Table(
+							-rules=>'all',
+							-border=>1,
+							-style=>'color:black'
+						);
+		$all_user_package_table->setCellPadding(4);
+		$all_user_package_table->setCellSpacing(1);
+		$all_user_package_table->setCaption("Report for the package information for specific users","top");
+		$all_user_package_table->addRow(@table_header);
+		$all_user_package_table->setRowBGColor($inner_row_index,"LightGray");
+
+		foreach my $user_results( @{$generate_report_hash->{userpackages}->{user_package_info}} )
+		{
+			$total_users++;
+			$inner_row_index++;
+			my $package_table = &createUserPacakgeTable($user_results->{user_packages});
+			$all_user_package_table->addRow(
+							$user_results->{user_first_name},
+							$user_results->{user_last_name},
+							$user_results->{user_email},
+							$user_results->{user_package_count},
+							$package_table,
+				);			
+		}
+
+		$final_table->setCell($row_index,1,$all_user_package_table);
+		$row_index++;		
 	}
 
 	print Dumper $final_table;
@@ -221,7 +279,7 @@ if(defined($opts{email}) )
 		Data 		=> $final_table,
 		);
 
-	$msg->send("smtp","smtp.gmail.com",AuthUser=>'ashwath.sundar@gmail.com', AuthPass=>'@Shwath26');
+	$msg->send("smtp","smtp.gmail.com",AuthUser=>'ashwath.sundar@gmail.com', AuthPass=>$password);
 	print Dumper $msg;
 }
 
@@ -245,6 +303,34 @@ sub check_email_domain{
 	}
 }
 
+sub createUserPacakgeTable{
+	my $package_information = shift;
+	my @table_header = qw/SourceAddress DestinationAddress PackageType ContainerType StatusType/;
+
+	# Creating table having information about all the users
+	my $user_package_table = new HTML::Table(
+						-rules=>'all',
+						-border=>1,
+						-style=>'color:black'
+					);
+
+	$user_package_table->setCellPadding(4);
+	$user_package_table->setCellSpacing(1);
+	$user_package_table->addRow(@table_header);
+
+	foreach my $package_info(@{$package_information})
+	{
+		$user_package_table->addRow(
+							$package_info->{source_address},
+							$package_info->{destination_address},
+							$package_info->{package_type},
+							$package_info->{container_info},
+							$package_info->{status_info}
+							);
+	}
+
+	return $user_package_table;
+}
 
 
 

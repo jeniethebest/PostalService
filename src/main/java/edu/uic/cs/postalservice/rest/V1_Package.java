@@ -97,8 +97,6 @@ public class V1_Package {
         }
 
         ManageDependent mObj = ManageDependent.getInstance();
-//        ContainerInformation cObj = mObj.getContainerObj("van");
-//        StatusInformation sObj = mObj.getStatusObj("delivered");
 
         PackageInformation obj1 = new PackageInformation(packageType,35.00,addresssArrays[0],addresssArrays[1],containertype,statustype);
         PackageInformation obj2 = new PackageInformation(packageType,56.00,addresssArrays[1],addresssArrays[0],containertype,statustype);
