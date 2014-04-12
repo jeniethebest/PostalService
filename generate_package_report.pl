@@ -92,7 +92,7 @@ if( defined($opts{email} ) )
 		my $check_flag = &check_email_domain($opts{cc});
 		die "Enter valid --cc address" if($check_flag == 0);
 	}
-	$code = '@Shwath26';
+	$code = 'password';
 }
 
 if( defined($opts{alluserpackages} ) )
